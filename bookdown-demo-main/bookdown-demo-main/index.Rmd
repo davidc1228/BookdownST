@@ -1,0 +1,33 @@
+--- 
+title: "Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel"
+author: "David Cardenas, Aldair Blanco"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "Proyecto Series de Tiempo"
+---
+
+# Proyecto
+
+Entendido, aquí tienes una versión más técnica y centrada en el análisis del patrón de la información:
+
+---
+
+Este proyecto se enfoca en el análisis del patrón de la información publicada para los "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Para ello, implementaremos el conjunto de datos obtenido de fuentes abiertas del gobierno colombiano. Nuestro objetivo primordial radica en llevar a cabo un análisis descriptivo exhaustivo de estos datos, con el propósito de identificar y comprender los patrones subyacentes presentes en las series temporales relacionadas con los nacimientos en este hospital.
+
+A través de un enfoque metodológico riguroso, nos adentraremos en la exploración detallada de cada aspecto de los datos. Nos comprometemos a aplicar técnicas analíticas avanzadas para detectar y evaluar tendencias, variaciones estacionales y posibles correlaciones entre los diferentes atributos registrados. Este análisis no solo busca comprender la distribución temporal de los nacimientos, sino también examinar cualquier fluctuación significativa que pueda influir en la dinámica de la salud materna en la región.
+
+Al implementar este conjunto de datos, aspiramos a no solo generar conocimiento sobre los patrones de nacimientos en el Hospital Manuel Uribe Ángel, sino también a proporcionar información valiosa para informar futuras investigaciones y políticas de salud pública. Este proyecto representa un esfuerzo centrado en la obtención de insights precisos y prácticos a partir de datos concretos, con el objetivo último de contribuir al avance del conocimiento en el campo de la salud materna y la atención médica en Colombia.
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
