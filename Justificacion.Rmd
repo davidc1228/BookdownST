@@ -1,0 +1,15 @@
+# Justificacion. {#Justificacion.}
+
+<br>
+
+<div style="text-align:justify;">
+Este proyecto se centra en el análisis del patrón de la información publicada sobre los "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Para ello, utilizaremos el conjunto de datos obtenido de fuentes gubernamentales abiertas de Colombia. Nuestro objetivo principal es realizar un análisis descriptivo exhaustivo de estos datos para identificar y comprender los patrones subyacentes presentes en las series temporales relacionadas con los nacimientos en este hospital.
+
+El propósito de este análisis es generar un pronóstico preciso sobre los futuros nacidos vivos en el hospital. Este pronóstico será fundamental para que el hospital se prepare y se abastezca de los instrumentos médicos necesarios para la atención de los recién nacidos, y también para gestionar adecuadamente el personal médico necesario.
+
+A través de un enfoque metodológico riguroso, nos adentraremos en la exploración detallada de cada aspecto de los datos. Nos comprometemos a aplicar técnicas analíticas avanzadas para detectar y evaluar tendencias, variaciones estacionales y posibles correlaciones entre los diferentes atributos registrados. Este análisis no solo busca comprender la distribución temporal de los nacimientos, sino también examinar cualquier fluctuación significativa que pueda influir en la dinámica de la salud materna en la región.
+
+Al implementar este conjunto de datos, aspiramos a no solo generar conocimiento sobre los patrones de nacimientos en el Hospital Manuel Uribe Ángel, sino también a proporcionar información valiosa para informar futuras investigaciones y políticas de salud pública. Este proyecto representa un esfuerzo centrado en la obtención de insights precisos y prácticos a partir de datos concretos, con el objetivo último de contribuir al avance del conocimiento en el campo de la salud materna y la atención médica en Colombia.
+
+Además del pronóstico, este análisis proporcionará información valiosa para la toma de decisiones estratégicas en el hospital, como la planificación de recursos humanos y materiales, la implementación de políticas de salud materno-infantil y la mejora continua de la calidad de la atención médica.
+</div>
