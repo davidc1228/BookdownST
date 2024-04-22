@@ -12,4 +12,9 @@ A través de un enfoque metodológico riguroso, nos adentraremos en la exploraci
 Al implementar este conjunto de datos, aspiramos a no solo generar conocimiento sobre los patrones de nacimientos en el Hospital Manuel Uribe Ángel, sino también a proporcionar información valiosa para informar futuras investigaciones y políticas de salud pública. Este proyecto representa un esfuerzo centrado en la obtención de insights precisos y prácticos a partir de datos concretos, con el objetivo último de contribuir al avance del conocimiento en el campo de la salud materna y la atención médica en Colombia.
 
 Además del pronóstico, este análisis proporcionará información valiosa para la toma de decisiones estratégicas en el hospital, como la planificación de recursos humanos y materiales, la implementación de políticas de salud materno-infantil y la mejora continua de la calidad de la atención médica.
+
+PRUEBA ENSAYO GUSTAVO
+PRUEBA EN COMMIT
+PRUEBA 2
+
 </div>
