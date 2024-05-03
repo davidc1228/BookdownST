@@ -1,3 +1,34 @@
+--- 
+title: "Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel"
+author: "David Cardenas, Aldair Blanco, Gustavo Ruiz"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "Proyecto Series de Tiempo"
+---
+
+# Proyecto
+
+Placeholder
+
+
+
+<!--chapter:end:index.Rmd-->
+
+
+# Analisis de la BD {#intro}
+
+Placeholder
+
+
+
+<!--chapter:end:01-intro.Rmd-->
+
 # Justificacion. {#Justificacion.}
 
 ---
@@ -15,3 +46,33 @@ Además del pronóstico, este análisis proporcionará información valiosa para
 
 
 </div>
+
+<!--chapter:end:Justificacion.Rmd-->
+
+# Rezagos {#Rezagos}
+
+---
+
+Los rezagos....
+
+```{r}
+library(dplyr)
+df <- data %>% 
+  mutate(fecha_nacimiento = as.Date(fecha_nacimiento))
+
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(df, aes(x = fecha_nacimiento)) +
+  geom_histogram(binwidth = 30) +  # Establecemos el ancho de las barras en 1 mes (30 días)
+  labs(title = "Distribucion de fechas de nacimiento",
+       x = "Fecha de nacimiento",
+       y = "Frecuencia")
+```
+
+
+
+<!--chapter:end:Rezagos.Rmd-->
+

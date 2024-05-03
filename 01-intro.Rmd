@@ -1,5 +1,7 @@
 # Analisis de la BD {#intro}
 
+---
+
 Para llevar a cabo este análisis, comenzaremos importando la información del conjunto de datos de "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Una vez importados los datos, procederemos a realizar un breve análisis descriptivo inicial para comprender la estructura y la distribución de la información recopilada. La utilidad fundamental de este conjunto de datos radica en su componente temporal, ya que contiene series de tiempo que nos permiten examinar la evolución y el comportamiento de los nacimientos en el transcurso del tiempo. Esta característica temporal nos proporciona una perspectiva invaluable para identificar tendencias a lo largo de períodos específicos, evaluar la estacionalidad de los nacimientos y analizar cualquier otro patrón temporal relevante que pueda surgir. Por lo tanto, este conjunto de datos posee un potencial significativo para generar insights que contribuyan a mejorar la comprensión y la gestión de la salud materna en el Hospital Manuel Uribe Ángel y más ampliamente en Colombia.
 
 ```{r importacion, message=FALSE, warning=FALSE}
@@ -14,13 +16,13 @@ library(knitr)
 url <- "https://www.datos.gov.co/resource/udqu-ifxr.csv"
 
 # Leer el conjunto de datos desde la URL usando read_csv
-data <- read_csv(url)
+df <- read_csv(url)
 
 # Verificar la estructura del conjunto de datos
-str(data)
+str(df)
 
 # Visualizar las primeras filas del conjunto de datos
-kable(head(data))
+kable(head(df))
 
 
 
@@ -33,21 +35,21 @@ A continuación ofrecemos una breve vista al analisis descriptivo previo de la i
 library(dplyr)
 
 # Resumen de estadísticas descriptivas para algunas variables numéricas
-summary(select(data, peso_gramos, talla_cent_metros, tiempo_de_gestaci_n, edad_madre))
+summary(select(df, peso_gramos, talla_cent_metros, tiempo_de_gestaci_n, edad_madre))
 
 # Tabla de frecuencias para algunas variables categóricas
-table(sexo = data$sexo)
-table(tipo_parto = data$tipo_parto)
-table(r_gimen_seguridad = data$r_gimen_seguridad)
+table(sexo = df$sexo)
+table(tipo_parto = df$tipo_parto)
+table(r_gimen_seguridad = df$r_gimen_seguridad)
 
 # Diagrama de barras para algunas variables categóricas
-barplot(table(sexo = data$sexo), main = "Distribución por Sexo", xlab = "Sexo", ylab = "Frecuencia")
-barplot(table(tipo_parto = data$tipo_parto), main = "Distribución por Tipo de Parto", xlab = "Tipo de Parto", ylab = "Frecuencia")
-barplot(table(r_gimen_seguridad = data$r_gimen_seguridad), main = "Distribución por Régimen de Seguridad", xlab = "Régimen de Seguridad", ylab = "Frecuencia")
+barplot(table(sexo = df$sexo), main = "Distribucion por Sexo", xlab = "Sexo", ylab = "Frecuencia")
+barplot(table(tipo_parto = df$tipo_parto), main = "Distribucion por Tipo de Parto", xlab = "Tipo de Parto", ylab = "Frecuencia")
+barplot(table(r_gimen_seguridad = df$r_gimen_seguridad), main = "Distribucion por Regimen de Seguridad", xlab = "Regimen de Seguridad", ylab = "Frecuencia")
 
 # Diagrama de caja para algunas variables numéricas
-boxplot(peso_gramos ~ sexo, data = data, main = "Peso al Nacer por Sexo", xlab = "Sexo", ylab = "Peso (gramos)")
-boxplot(talla_cent_metros ~ sexo, data = data, main = "Talla al Nacer por Sexo", xlab = "Sexo", ylab = "Talla (centímetros)")
+boxplot(df$peso_gramos ~ df$sexo, main = "Peso al Nacer por Sexo", xlab = "Sexo", ylab = "Peso (gramos)")
+boxplot(df$talla_cent_metros ~ df$sexo, df = df, main = "Talla al Nacer por Sexo", xlab = "Sexo", ylab = "Talla (centimetros)")
 
 # Diagrama de dispersión para algunas variables numéricas
 

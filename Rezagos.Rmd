@@ -1,0 +1,24 @@
+# Rezagos {#Rezagos}
+
+---
+
+Los rezagos....
+
+```{r}
+library(dplyr)
+df <- data %>% 
+  mutate(fecha_nacimiento = as.Date(fecha_nacimiento))
+
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(df, aes(x = fecha_nacimiento)) +
+  geom_histogram(binwidth = 30) +  # Establecemos el ancho de las barras en 1 mes (30 días)
+  labs(title = "Distribucion de fechas de nacimiento",
+       x = "Fecha de nacimiento",
+       y = "Frecuencia")
+```
+
+
