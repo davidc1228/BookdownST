@@ -3,3 +3,4 @@ language:
   ui:
     chapter_name: "Capitulo "
 delete_merged_file: true
+rmd_files: ["index.Rmd", "Justificacion.Rmd", "Estacionalidad.Rmd","Rezagos.Rmd","Descomposicion.Rmd"]

@@ -1,6 +1,5 @@
 # Justificacion. {#Justificacion.}
 
----
 <br>
 <div style="text-align:justify;">
 Este proyecto se centra en el análisis del patrón de la información publicada sobre los "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Para ello, utilizaremos el conjunto de datos obtenido de fuentes gubernamentales abiertas de Colombia. Nuestro objetivo principal es realizar un análisis descriptivo exhaustivo de estos datos para identificar y comprender los patrones subyacentes presentes en las series temporales relacionadas con los nacimientos en este hospital.

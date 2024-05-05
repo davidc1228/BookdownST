@@ -1,0 +1,149 @@
+# Estacionalidad  {#Estacionalidad}
+
+La estacionalidad en un conjunto de datos se refiere a patrones recurrentes o fluctuaciones que ocurren en intervalos de tiempo regulares, como días, semanas, meses o años. Estos patrones pueden deberse a factores estacionales, como cambios climáticos, festividades, o comportamientos estacionales en la demanda de ciertos productos o servicios.
+
+La estacionalidad puede manifestarse de diferentes formas en los datos. Por ejemplo:
+
+1. **Estacionalidad aditiva**: En este caso, las fluctuaciones estacionales tienen una magnitud constante a lo largo del tiempo.
+
+2. **Estacionalidad multiplicativa**: Aquí, la magnitud de las fluctuaciones estacionales varía en función del nivel de la serie temporal. 
+
+La identificación de la estacionalidad en un conjunto de datos es importante porque puede ayudarte a entender mejor las tendencias y los patrones subyacentes en tus datos. Además, puede ser útil para predecir futuros valores y tomar decisiones informadas, especialmente en industrias donde los patrones estacionales tienen un impacto significativo, como el comercio minorista, el turismo o la agricultura.
+
+
+
+```{r estacionalidad_1}
+library(readr)
+
+# Leer el conjunto de datos desde el archivo CSV
+data <- read_csv("data.csv", show_col_types = FALSE)
+
+# Convertir la columna fecha_nacimiento a formato de fecha
+data$fecha_nacimiento <- as.Date(data$fecha_nacimiento)
+
+# Crear una nueva columna que contenga solo el año, mes y día
+data$fecha_nacimiento_nueva <- format(data$fecha_nacimiento, "%Y-%m-%d")
+
+head(data)
+
+```
+
+```{r estacionalidad2}
+library(ggplot2)
+# Convertir la columna fecha_nacimiento_nueva de caracteres a fecha
+data$fecha_nacimiento_nueva  <- as.Date(data$fecha_nacimiento_nueva)
+# Crear un histograma de las fechas de nacimiento
+ggplot(data, aes(x = fecha_nacimiento_nueva)) +
+  geom_histogram(binwidth = 1, color = "black", fill = "blue") +
+  labs(title = "Distribución de fechas de nacimiento",
+       x = "Fecha de nacimiento",
+       y = "Frecuencia")
+```
+
+
+```{r estacionalidad3, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+library(lubridate)
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+# Extraer el mes y el año de la fecha
+# Filtrar datos del año 2021 a 2022
+data_filtrado <- data %>%
+  filter(year(fecha_nacimiento) >= 2021 & year(fecha_nacimiento) <= 2022)
+
+
+
+# Extraer el mes y el año de la fecha
+data_filtrado$mes <- format(data_filtrado$fecha_nacimiento, "%m")
+data_filtrado$año <- format(data_filtrado$fecha_nacimiento, "%Y")
+
+# Contar el número de casos por mes y año
+conteo_mes <- data_filtrado %>% group_by(mes) %>% summarise(casos = n())
+conteo_año <- data_filtrado %>% group_by(año) %>% summarise(casos = n())
+
+# Visualizar la estacionalidad a nivel mensual
+ggplot(conteo_mes, aes(x = mes, y = casos)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Estacionalidad mensual (2021-2022)",
+       x = "Mes",
+       y = "Número de casos")
+
+```
+
+
+
+
+
+
+```{r estacionalidad4, message=FALSE, warning=FALSE}
+library(plotly)
+# Contar el número de casos por mes y año
+conteo_mes_año <- data_filtrado %>%
+  group_by(año, mes) %>%
+  summarise(casos = n())
+
+# Convertir la columna 'año' a factor para mantener el orden en el gráfico
+conteo_mes_año$año <- factor(conteo_mes_año$año)
+
+# Crear gráfico interactivo de barras
+plot_ly(conteo_mes_año, x = ~mes, y = ~casos, color = ~año, type = "bar") %>%
+  layout(title = "Estacionalidad de mes por año (2021-2024)",
+         xaxis = list(title = "Mes"),
+         yaxis = list(title = "Número de casos"),
+         colorway = c("blue", "green", "red", "orange")) # Cambia los colores según sea necesario
+
+```
+
+
+
+
+## Porcentaje de Estacionalidad por Mes y Año (2021-2024)
+La tabla a continuación muestra el porcentaje de estacionalidad por mes y año para el período comprendido entre 2021 y 2024. Estos datos representan la distribución relativa de casos a lo largo de los meses en cada año y proporcionan información sobre posibles patrones estacionales en la ocurrencia de eventos.
+
+```{r estacionalidad5, echo=FALSE}
+library(dplyr)
+library(knitr)
+
+# Convertir la columna 'fecha_nacimiento' a formato de fecha
+data_filtrado$fecha_nacimiento <- as.Date(data_filtrado$fecha_nacimiento)
+
+# Extraer mes y año de la fecha de nacimiento
+data_filtrado <- data_filtrado %>%
+  mutate(mes = month(fecha_nacimiento),  # Obtener el mes
+         año = year(fecha_nacimiento))   # Obtener el año
+
+# Contar el número de casos por año y mes
+conteo_mes_año <- data_filtrado %>%
+  group_by(año, mes) %>%
+  summarise(casos = n(), .groups = "drop")  # Desagrupar los datos después de calcular el conteo
+
+# Calcular el total de casos por año
+total_por_año <- conteo_mes_año %>%
+  group_by(año) %>%
+  summarise(total_casos = sum(casos))
+
+# Unir los datos de conteo con los totales por año
+conteo_mes_año <- left_join(conteo_mes_año, total_por_año, by = "año")
+
+# Calcular el porcentaje de estacionalidad por mes en cada año
+porcentaje_estacionalidad <- conteo_mes_año %>%
+  mutate(porcentaje = casos / total_casos * 100) %>%
+  select(año, mes, porcentaje)
+
+# Mostrar
+
+# Mostrar la tabla de porcentajes con formato bonito
+kable(porcentaje_estacionalidad, caption = "Porcentaje de estacionalidad por mes y año (2021-2024)", 
+      format = "html", align = "c",
+      caption.short = "Porcentaje de estacionalidad por mes y año")
+
+
+```
+
+
+
+Estos datos revelan fluctuaciones significativas en la distribución de casos a lo largo de los meses, con algunos meses mostrando una concentración notable de casos, mientras que otros muestran una ocurrencia mínima. En el año 2022, por ejemplo, enero destaca con un porcentaje extremadamente alto de 97.47%, lo que sugiere una concentración significativa de casos en ese mes. Por otro lado, febrero muestra un porcentaje mínimo de 0.42%, indicando una ocurrencia muy baja de casos durante ese período. Mayo también muestra un pequeño aumento en la estacionalidad con un porcentaje del 2.11%, aunque sigue siendo relativamente bajo en comparación con otros meses.
+
+
