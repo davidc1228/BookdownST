@@ -15,6 +15,7 @@ description: "Proyecto Series de Tiempo"
 # Proyecto
 
 
+
 ---
 
 Este proyecto se enfoca en el análisis del patrón de la información publicada para los "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Para ello, implementaremos el conjunto de datos obtenido de fuentes abiertas del gobierno colombiano. Nuestro objetivo primordial radica en llevar a cabo un análisis descriptivo exhaustivo de estos datos, con el propósito de identificar y comprender los patrones subyacentes presentes en las series temporales relacionadas con los nacimientos en este hospital.

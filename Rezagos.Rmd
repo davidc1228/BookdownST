@@ -4,19 +4,31 @@
 
 Los rezagos....
 
-```{r}
-library(dplyr)
-df <- data %>% 
-  mutate(fecha_nacimiento = as.Date(fecha_nacimiento))
+```{r rezagos_1}
+library(readr)
+
+# Leer el conjunto de datos desde el archivo CSV
+data <- read_csv("data.csv", show_col_types = FALSE)
+
+# Convertir la columna fecha_nacimiento a formato de fecha
+data$fecha_nacimiento <- as.Date(data$fecha_nacimiento)
+
+# Crear una nueva columna que contenga solo el año, mes y día
+data$fecha_nacimiento_nueva <- format(data$fecha_nacimiento, "%Y-%m-%d")
+
+
 
 ```
 
 
-```{r}
+```{r rezagos_2}
 library(ggplot2)
-ggplot(df, aes(x = fecha_nacimiento)) +
-  geom_histogram(binwidth = 30) +  # Establecemos el ancho de las barras en 1 mes (30 días)
-  labs(title = "Distribucion de fechas de nacimiento",
+# Convertir la columna fecha_nacimiento_nueva de caracteres a fecha
+data$fecha_nacimiento_nueva  <- as.Date(data$fecha_nacimiento_nueva)
+# Crear un histograma de las fechas de nacimiento
+ggplot(data, aes(x = fecha_nacimiento_nueva)) +
+  geom_histogram(binwidth = 1, color = "black", fill = "blue") +
+  labs(title = "Distribución de fechas de nacimiento",
        x = "Fecha de nacimiento",
        y = "Frecuencia")
 ```
