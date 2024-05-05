@@ -1,6 +1,6 @@
 --- 
 title: "Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel"
-author: "David Cardenas, Aldair Blanco"
+author: "David Cardenas, Aldair Blanco, Gustavo Ruiz"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
@@ -14,7 +14,6 @@ description: "Proyecto Series de Tiempo"
 
 # Proyecto
 
-Entendido, aquí tienes una versión más técnica y centrada en el análisis del patrón de la información:
 
 ---
 
