@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitulo 4 Estacionalidad | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</title>
+  <meta name="description" content="Proyecto Series de Tiempo" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitulo 4 Estacionalidad | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Proyecto Series de Tiempo" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitulo 4 Estacionalidad | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  
+  <meta name="twitter:description" content="Proyecto Series de Tiempo" />
+  
+
+<meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
+
+
+<meta name="date" content="2024-05-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="iDescomposicion.html"/>
+<link rel="next" href="Justificacion..html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Ejercicio Series de Tiempo</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Proyecto</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Analisis de la BD</a></li>
+<li class="chapter" data-level="3" data-path="iDescomposicion.html"><a href="iDescomposicion.html"><i class="fa fa-check"></i><b>3</b> Descomposicion</a></li>
+<li class="chapter" data-level="4" data-path="Estacionalidad.html"><a href="Estacionalidad.html"><i class="fa fa-check"></i><b>4</b> Estacionalidad</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="Estacionalidad.html"><a href="Estacionalidad.html#porcentaje-de-estacionalidad-por-mes-y-año-2021-2024"><i class="fa fa-check"></i><b>4.1</b> Porcentaje de Estacionalidad por Mes y Año (2021-2024)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Justificacion..html"><a href="Justificacion..html"><i class="fa fa-check"></i><b>5</b> Justificacion.</a></li>
+<li class="chapter" data-level="6" data-path="Rezagos.html"><a href="Rezagos.html"><i class="fa fa-check"></i><b>6</b> Rezagos</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Estacionalidad" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capitulo 4</span> Estacionalidad<a href="Estacionalidad.html#Estacionalidad" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La estacionalidad en un conjunto de datos se refiere a patrones recurrentes o fluctuaciones que ocurren en intervalos de tiempo regulares, como días, semanas, meses o años. Estos patrones pueden deberse a factores estacionales, como cambios climáticos, festividades, o comportamientos estacionales en la demanda de ciertos productos o servicios.</p>
+<p>La estacionalidad puede manifestarse de diferentes formas en los datos. Por ejemplo:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Estacionalidad aditiva</strong>: En este caso, las fluctuaciones estacionales tienen una magnitud constante a lo largo del tiempo.</p></li>
+<li><p><strong>Estacionalidad multiplicativa</strong>: Aquí, la magnitud de las fluctuaciones estacionales varía en función del nivel de la serie temporal.</p></li>
+</ol>
+<p>La identificación de la estacionalidad en un conjunto de datos es importante porque puede ayudarte a entender mejor las tendencias y los patrones subyacentes en tus datos. Además, puede ser útil para predecir futuros valores y tomar decisiones informadas, especialmente en industrias donde los patrones estacionales tienen un impacto significativo, como el comercio minorista, el turismo o la agricultura.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="Estacionalidad.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="Estacionalidad.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leer el conjunto de datos desde el archivo CSV</span></span>
+<span id="cb3-2"><a href="Estacionalidad.html#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-3"><a href="Estacionalidad.html#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="Estacionalidad.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir la columna fecha_nacimiento a formato de fecha</span></span>
+<span id="cb3-5"><a href="Estacionalidad.html#cb3-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>fecha_nacimiento <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(data<span class="sc">$</span>fecha_nacimiento)</span>
+<span id="cb3-6"><a href="Estacionalidad.html#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="Estacionalidad.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una nueva columna que contenga solo el año, mes y día</span></span>
+<span id="cb3-8"><a href="Estacionalidad.html#cb3-8" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>fecha_nacimiento_nueva <span class="ot">&lt;-</span> <span class="fu">format</span>(data<span class="sc">$</span>fecha_nacimiento, <span class="st">&quot;%Y-%m-%d&quot;</span>)</span>
+<span id="cb3-9"><a href="Estacionalidad.html#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="Estacionalidad.html#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 32
+##   departamento municipio area_nacimiento    sexo   peso_gramos talla_cent_metros
+##   &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt;        &lt;dbl&gt;             &lt;dbl&gt;
+## 1 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL MASCU…        2085                45
+## 2 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL FEMEN…        3000                47
+## 3 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL MASCU…        2905                50
+## 4 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL FEMEN…        3700                50
+## 5 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL FEMEN…        3130                49
+## 6 ANTIOQUIA    ENVIGADO  CABECERA MUNICIPAL MASCU…        3830                54
+## # ℹ 26 more variables: fecha_nacimiento &lt;date&gt;, tiempo_de_gestaci_n &lt;dbl&gt;,
+## #   n_mero_consultas_prenatales &lt;dbl&gt;, tipo_parto &lt;chr&gt;,
+## #   multiplicidad_embarazo &lt;chr&gt;, pertenencia_tnica &lt;chr&gt;,
+## #   grupo_indigena &lt;chr&gt;, edad_madre &lt;dbl&gt;, r_gimen_seguridad &lt;chr&gt;,
+## #   nombre_administradora &lt;chr&gt;, edad_padre &lt;dbl&gt;, nivel_educativo_padre &lt;chr&gt;,
+## #   departamento_expedici_n &lt;chr&gt;, municipio_expedici_n &lt;chr&gt;,
+## #   estado_conyugal_de_la_madre &lt;chr&gt;, nivel_educativo_de_la_madre &lt;chr&gt;, …</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="Estacionalidad.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="Estacionalidad.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir la columna fecha_nacimiento_nueva de caracteres a fecha</span></span>
+<span id="cb7-2"><a href="Estacionalidad.html#cb7-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>fecha_nacimiento_nueva  <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(data<span class="sc">$</span>fecha_nacimiento_nueva)</span>
+<span id="cb7-3"><a href="Estacionalidad.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un histograma de las fechas de nacimiento</span></span>
+<span id="cb7-4"><a href="Estacionalidad.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> fecha_nacimiento_nueva)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="Estacionalidad.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="Estacionalidad.html#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución de fechas de nacimiento&quot;</span>,</span>
+<span id="cb7-7"><a href="Estacionalidad.html#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Fecha de nacimiento&quot;</span>,</span>
+<span id="cb7-8"><a href="Estacionalidad.html#cb7-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/estacionalidad2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="Estacionalidad.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb8-2"><a href="Estacionalidad.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb8-3"><a href="Estacionalidad.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-4"><a href="Estacionalidad.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-5"><a href="Estacionalidad.html#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="Estacionalidad.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer el mes y el año de la fecha</span></span>
+<span id="cb8-7"><a href="Estacionalidad.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar datos del año 2021 a 2022</span></span>
+<span id="cb8-8"><a href="Estacionalidad.html#cb8-8" aria-hidden="true" tabindex="-1"></a>data_filtrado <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="Estacionalidad.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(fecha_nacimiento) <span class="sc">&gt;=</span> <span class="dv">2021</span> <span class="sc">&amp;</span> <span class="fu">year</span>(fecha_nacimiento) <span class="sc">&lt;=</span> <span class="dv">2022</span>)</span>
+<span id="cb8-10"><a href="Estacionalidad.html#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="Estacionalidad.html#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="Estacionalidad.html#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="Estacionalidad.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer el mes y el año de la fecha</span></span>
+<span id="cb8-14"><a href="Estacionalidad.html#cb8-14" aria-hidden="true" tabindex="-1"></a>data_filtrado<span class="sc">$</span>mes <span class="ot">&lt;-</span> <span class="fu">format</span>(data_filtrado<span class="sc">$</span>fecha_nacimiento, <span class="st">&quot;%m&quot;</span>)</span>
+<span id="cb8-15"><a href="Estacionalidad.html#cb8-15" aria-hidden="true" tabindex="-1"></a>data_filtrado<span class="sc">$</span>año <span class="ot">&lt;-</span> <span class="fu">format</span>(data_filtrado<span class="sc">$</span>fecha_nacimiento, <span class="st">&quot;%Y&quot;</span>)</span>
+<span id="cb8-16"><a href="Estacionalidad.html#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="Estacionalidad.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar el número de casos por mes y año</span></span>
+<span id="cb8-18"><a href="Estacionalidad.html#cb8-18" aria-hidden="true" tabindex="-1"></a>conteo_mes <span class="ot">&lt;-</span> data_filtrado <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mes) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">casos =</span> <span class="fu">n</span>())</span>
+<span id="cb8-19"><a href="Estacionalidad.html#cb8-19" aria-hidden="true" tabindex="-1"></a>conteo_año <span class="ot">&lt;-</span> data_filtrado <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(año) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">casos =</span> <span class="fu">n</span>())</span>
+<span id="cb8-20"><a href="Estacionalidad.html#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="Estacionalidad.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar la estacionalidad a nivel mensual</span></span>
+<span id="cb8-22"><a href="Estacionalidad.html#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(conteo_mes, <span class="fu">aes</span>(<span class="at">x =</span> mes, <span class="at">y =</span> casos)) <span class="sc">+</span></span>
+<span id="cb8-23"><a href="Estacionalidad.html#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-24"><a href="Estacionalidad.html#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Estacionalidad mensual (2021-2022)&quot;</span>,</span>
+<span id="cb8-25"><a href="Estacionalidad.html#cb8-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Mes&quot;</span>,</span>
+<span id="cb8-26"><a href="Estacionalidad.html#cb8-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Número de casos&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/estacionalidad3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="Estacionalidad.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb9-2"><a href="Estacionalidad.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar el número de casos por mes y año</span></span>
+<span id="cb9-3"><a href="Estacionalidad.html#cb9-3" aria-hidden="true" tabindex="-1"></a>conteo_mes_año <span class="ot">&lt;-</span> data_filtrado <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="Estacionalidad.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(año, mes) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="Estacionalidad.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">casos =</span> <span class="fu">n</span>())</span>
+<span id="cb9-6"><a href="Estacionalidad.html#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="Estacionalidad.html#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir la columna &#39;año&#39; a factor para mantener el orden en el gráfico</span></span>
+<span id="cb9-8"><a href="Estacionalidad.html#cb9-8" aria-hidden="true" tabindex="-1"></a>conteo_mes_año<span class="sc">$</span>año <span class="ot">&lt;-</span> <span class="fu">factor</span>(conteo_mes_año<span class="sc">$</span>año)</span>
+<span id="cb9-9"><a href="Estacionalidad.html#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="Estacionalidad.html#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear gráfico interactivo de barras</span></span>
+<span id="cb9-11"><a href="Estacionalidad.html#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(conteo_mes_año, <span class="at">x =</span> <span class="sc">~</span>mes, <span class="at">y =</span> <span class="sc">~</span>casos, <span class="at">color =</span> <span class="sc">~</span>año, <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="Estacionalidad.html#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">&quot;Estacionalidad de mes por año (2021-2024)&quot;</span>,</span>
+<span id="cb9-13"><a href="Estacionalidad.html#cb9-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Mes&quot;</span>),</span>
+<span id="cb9-14"><a href="Estacionalidad.html#cb9-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Número de casos&quot;</span>),</span>
+<span id="cb9-15"><a href="Estacionalidad.html#cb9-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">colorway =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;orange&quot;</span>)) <span class="co"># Cambia los colores según sea necesario</span></span></code></pre></div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7a02b5dd7d1ce769da42" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-7a02b5dd7d1ce769da42">{"x":{"visdat":{"5c1856865771":["function () ","plotlyVisDat"]},"cur_data":"5c1856865771","attrs":{"5c1856865771":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Estacionalidad de mes por año (2021-2024)","xaxis":{"domain":[0,1],"automargin":true,"title":"Mes","type":"category","categoryorder":"array","categoryarray":["01","02","05","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Número de casos"},"colorway":["blue","green","red","orange"],"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["10","11","12"],"y":[270,246,238],"type":"bar","name":"2021","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["01","02","05"],"y":[231,1,5],"type":"bar","name":"2022","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="porcentaje-de-estacionalidad-por-mes-y-año-2021-2024" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Porcentaje de Estacionalidad por Mes y Año (2021-2024)<a href="Estacionalidad.html#porcentaje-de-estacionalidad-por-mes-y-año-2021-2024" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La tabla a continuación muestra el porcentaje de estacionalidad por mes y año para el período comprendido entre 2021 y 2024. Estos datos representan la distribución relativa de casos a lo largo de los meses en cada año y proporcionan información sobre posibles patrones estacionales en la ocurrencia de eventos.</p>
+<pre><code>## Warning: package &#39;knitr&#39; was built under R version 4.3.3</code></pre>
+<table>
+<caption>
+<span id="tab:estacionalidad5">Table 4.1: </span>Porcentaje de estacionalidad por mes y año (2021-2024)
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+año
+</th>
+<th style="text-align:center;">
+mes
+</th>
+<th style="text-align:center;">
+porcentaje
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+35.8090186
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+32.6259947
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+31.5649867
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+97.4683544
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+0.4219409
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+2.1097046
+</td>
+</tr>
+</tbody>
+</table>
+<p>Estos datos revelan fluctuaciones significativas en la distribución de casos a lo largo de los meses, con algunos meses mostrando una concentración notable de casos, mientras que otros muestran una ocurrencia mínima. En el año 2022, por ejemplo, enero destaca con un porcentaje extremadamente alto de 97.47%, lo que sugiere una concentración significativa de casos en ese mes. Por otro lado, febrero muestra un porcentaje mínimo de 0.42%, indicando una ocurrencia muy baja de casos durante ese período. Mayo también muestra un pequeño aumento en la estacionalidad con un porcentaje del 2.11%, aunque sigue siendo relativamente bajo en comparación con otros meses.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="iDescomposicion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Justificacion..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Estacionalidad.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

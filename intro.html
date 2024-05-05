@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitulo 2 Analisis de la BD | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</title>
+  <meta name="description" content="Proyecto Series de Tiempo" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitulo 2 Analisis de la BD | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Proyecto Series de Tiempo" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitulo 2 Analisis de la BD | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  
+  <meta name="twitter:description" content="Proyecto Series de Tiempo" />
+  
+
+<meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
+
+
+<meta name="date" content="2024-05-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="iDescomposicion.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Ejercicio Series de Tiempo</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Proyecto</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Analisis de la BD</a></li>
+<li class="chapter" data-level="3" data-path="iDescomposicion.html"><a href="iDescomposicion.html"><i class="fa fa-check"></i><b>3</b> Descomposicion</a></li>
+<li class="chapter" data-level="4" data-path="Estacionalidad.html"><a href="Estacionalidad.html"><i class="fa fa-check"></i><b>4</b> Estacionalidad</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="Estacionalidad.html"><a href="Estacionalidad.html#porcentaje-de-estacionalidad-por-mes-y-año-2021-2024"><i class="fa fa-check"></i><b>4.1</b> Porcentaje de Estacionalidad por Mes y Año (2021-2024)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Justificacion..html"><a href="Justificacion..html"><i class="fa fa-check"></i><b>5</b> Justificacion.</a></li>
+<li class="chapter" data-level="6" data-path="Rezagos.html"><a href="Rezagos.html"><i class="fa fa-check"></i><b>6</b> Rezagos</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Capitulo 2</span> Analisis de la BD<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Para llevar a cabo este análisis, comenzaremos importando la información del conjunto de datos de “Nacidos Vivos en el Hospital Manuel Uribe Ángel” en Colombia. Una vez importados los datos, procederemos a realizar un breve análisis descriptivo inicial para comprender la estructura y la distribución de la información recopilada. La utilidad fundamental de este conjunto de datos radica en su componente temporal, ya que contiene series de tiempo que nos permiten examinar la evolución y el comportamiento de los nacimientos en el transcurso del tiempo. Esta característica temporal nos proporciona una perspectiva invaluable para identificar tendencias a lo largo de períodos específicos, evaluar la estacionalidad de los nacimientos y analizar cualquier otro patrón temporal relevante que pueda surgir. Por lo tanto, este conjunto de datos posee un potencial significativo para generar insights que contribuyan a mejorar la comprensión y la gestión de la salud materna en el Hospital Manuel Uribe Ángel y más ampliamente en Colombia.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar y cargar la librería necesaria</span></span>
+<span id="cb1-2"><a href="intro.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;readr&quot;)</span></span>
+<span id="cb1-3"><a href="intro.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;knitr&quot;)</span></span>
+<span id="cb1-4"><a href="intro.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-5"><a href="intro.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-6"><a href="intro.html#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="intro.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la URL del conjunto de datos</span></span>
+<span id="cb1-8"><a href="intro.html#cb1-8" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.datos.gov.co/resource/udqu-ifxr.csv&quot;</span></span>
+<span id="cb1-9"><a href="intro.html#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="intro.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Leer el conjunto de datos desde la URL usando read_csv</span></span>
+<span id="cb1-11"><a href="intro.html#cb1-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span>
+<span id="cb1-12"><a href="intro.html#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="intro.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar la estructura del conjunto de datos</span></span>
+<span id="cb1-14"><a href="intro.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code></pre></div>
+<pre><code>## spc_tbl_ [1,000 × 31] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ departamento                 : chr [1:1000] &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; ...
+##  $ municipio                    : chr [1:1000] &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; ...
+##  $ area_nacimiento              : chr [1:1000] &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; ...
+##  $ sexo                         : chr [1:1000] &quot;MASCULINO&quot; &quot;FEMENINO&quot; &quot;MASCULINO&quot; &quot;FEMENINO&quot; ...
+##  $ peso_gramos                  : num [1:1000] 2085 3000 2905 3700 3130 ...
+##  $ talla_cent_metros            : num [1:1000] 45 47 50 50 49 54 50 50 39 50 ...
+##  $ fecha_nacimiento             : POSIXct[1:1000], format: &quot;2022-05-06 00:00:00&quot; &quot;2022-05-06 00:00:00&quot; ...
+##  $ tiempo_de_gestaci_n          : num [1:1000] 37 37 39 40 39 40 39 38 29 38 ...
+##  $ n_mero_consultas_prenatales  : num [1:1000] 8 5 8 6 12 7 8 9 5 10 ...
+##  $ tipo_parto                   : chr [1:1000] &quot;ESPONTÁNEO&quot; &quot;ESPONTÁNEO&quot; &quot;ESPONTÁNEO&quot; &quot;ESPONTÁNEO&quot; ...
+##  $ multiplicidad_embarazo       : chr [1:1000] &quot;SIMPLE&quot; &quot;SIMPLE&quot; &quot;SIMPLE&quot; &quot;SIMPLE&quot; ...
+##  $ pertenencia_tnica            : chr [1:1000] &quot;NINGUNO DE LOS ANTERIORES&quot; &quot;NINGUNO DE LOS ANTERIORES&quot; &quot;NINGUNO DE LOS ANTERIORES&quot; &quot;NINGUNO DE LOS ANTERIORES&quot; ...
+##  $ grupo_indigena               : chr [1:1000] NA NA NA NA ...
+##  $ edad_madre                   : num [1:1000] 28 33 25 39 32 23 30 17 25 25 ...
+##  $ r_gimen_seguridad            : chr [1:1000] &quot;CONTRIBUTIVO&quot; &quot;CONTRIBUTIVO&quot; &quot;SUBSIDIADO&quot; &quot;CONTRIBUTIVO&quot; ...
+##  $ nombre_administradora        : chr [1:1000] &quot;EPS SURA&quot; &quot;EPS SURA&quot; &quot;NUEVA EPS S.A.&quot; &quot;EPS SURA&quot; ...
+##  $ edad_padre                   : num [1:1000] 24 29 21 32 37 28 25 27 30 25 ...
+##  $ nivel_educativo_padre        : chr [1:1000] &quot;MEDIA ACADÉMICA O CLÁSICA&quot; &quot;MEDIA ACADÉMICA O CLÁSICA&quot; &quot;MEDIA ACADÉMICA O CLÁSICA&quot; &quot;TECNOLÓGICA&quot; ...
+##  $ departamento_expedici_n      : chr [1:1000] &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; ...
+##  $ municipio_expedici_n         : chr [1:1000] &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; &quot;ENVIGADO&quot; ...
+##  $ estado_conyugal_de_la_madre  : chr [1:1000] &quot;NO ESTÁ CASADA Y LLEVA DOS AÑOS O MÁS VIVIENDO CON SU PAREJA&quot; &quot;NO ESTÁ CASADA Y LLEVA MENOS DE DOS AÑOS VIVIENDO CON SU PAREJA&quot; &quot;NO ESTÁ CASADA Y LLEVA MENOS DE DOS AÑOS VIVIENDO CON SU PAREJA&quot; &quot;NO ESTÁ CASADA Y LLEVA DOS AÑOS O MÁS VIVIENDO CON SU PAREJA&quot; ...
+##  $ nivel_educativo_de_la_madre  : chr [1:1000] &quot;BÁSICA SECUNDARIA&quot; &quot;PROFESIONAL&quot; &quot;MEDIA ACADÉMICA O CLÁSICA&quot; &quot;TÉCNICA PROFESIONAL&quot; ...
+##  $ numero_de_hijos_nacidos_vivos: num [1:1000] 4 2 1 1 2 1 1 1 1 2 ...
+##  $ numero_de_embarazos          : num [1:1000] 5 2 1 1 2 1 1 1 1 2 ...
+##  $ area_de_residencia           : chr [1:1000] &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; &quot;CABECERA MUNICIPAL&quot; ...
+##  $ pa_s_de_residencia           : chr [1:1000] &quot;COLOMBIA&quot; &quot;COLOMBIA&quot; &quot;COLOMBIA&quot; &quot;COLOMBIA&quot; ...
+##  $ departamento_residencia      : chr [1:1000] &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; &quot;ANTIOQUIA&quot; ...
+##  $ municipio_residencia         : chr [1:1000] &quot;ITAGÜÍ&quot; &quot;ENVIGADO&quot; &quot;LA ESTRELLA&quot; &quot;ENVIGADO&quot; ...
+##  $ longitud                     : chr [1:1000] &quot;-75.6143587142&quot; &quot;-75.5830101409&quot; &quot;-75.6451903823&quot; &quot;-75.5830101409&quot; ...
+##  $ latitud                      : chr [1:1000] &quot;6.16959762893&quot; &quot;6.16700455162&quot; &quot;6.15841974028&quot; &quot;6.16700455162&quot; ...
+##  $ geocoded_column              : chr [1:1000] &quot;POINT (-75.6143587142 6.16959762893)&quot; &quot;POINT (-75.5830101409 6.16700455162)&quot; &quot;POINT (-75.6451903823 6.15841974028)&quot; &quot;POINT (-75.5830101409 6.16700455162)&quot; ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   departamento = col_character(),
+##   ..   municipio = col_character(),
+##   ..   area_nacimiento = col_character(),
+##   ..   sexo = col_character(),
+##   ..   peso_gramos = col_double(),
+##   ..   talla_cent_metros = col_double(),
+##   ..   fecha_nacimiento = col_datetime(format = &quot;&quot;),
+##   ..   tiempo_de_gestaci_n = col_double(),
+##   ..   n_mero_consultas_prenatales = col_double(),
+##   ..   tipo_parto = col_character(),
+##   ..   multiplicidad_embarazo = col_character(),
+##   ..   pertenencia_tnica = col_character(),
+##   ..   grupo_indigena = col_character(),
+##   ..   edad_madre = col_double(),
+##   ..   r_gimen_seguridad = col_character(),
+##   ..   nombre_administradora = col_character(),
+##   ..   edad_padre = col_double(),
+##   ..   nivel_educativo_padre = col_character(),
+##   ..   departamento_expedici_n = col_character(),
+##   ..   municipio_expedici_n = col_character(),
+##   ..   estado_conyugal_de_la_madre = col_character(),
+##   ..   nivel_educativo_de_la_madre = col_character(),
+##   ..   numero_de_hijos_nacidos_vivos = col_double(),
+##   ..   numero_de_embarazos = col_double(),
+##   ..   area_de_residencia = col_character(),
+##   ..   pa_s_de_residencia = col_character(),
+##   ..   departamento_residencia = col_character(),
+##   ..   municipio_residencia = col_character(),
+##   ..   longitud = col_character(),
+##   ..   latitud = col_character(),
+##   ..   geocoded_column = col_character()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar las primeras filas del conjunto de datos</span></span>
+<span id="cb3-2"><a href="intro.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(data))</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="2%" />
+<col width="1%" />
+<col width="2%" />
+<col width="1%" />
+<col width="1%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="4%" />
+<col width="2%" />
+<col width="1%" />
+<col width="2%" />
+<col width="3%" />
+<col width="1%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="9%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">departamento</th>
+<th align="left">municipio</th>
+<th align="left">area_nacimiento</th>
+<th align="left">sexo</th>
+<th align="right">peso_gramos</th>
+<th align="right">talla_cent_metros</th>
+<th align="left">fecha_nacimiento</th>
+<th align="right">tiempo_de_gestaci_n</th>
+<th align="right">n_mero_consultas_prenatales</th>
+<th align="left">tipo_parto</th>
+<th align="left">multiplicidad_embarazo</th>
+<th align="left">pertenencia_tnica</th>
+<th align="left">grupo_indigena</th>
+<th align="right">edad_madre</th>
+<th align="left">r_gimen_seguridad</th>
+<th align="left">nombre_administradora</th>
+<th align="right">edad_padre</th>
+<th align="left">nivel_educativo_padre</th>
+<th align="left">departamento_expedici_n</th>
+<th align="left">municipio_expedici_n</th>
+<th align="left">estado_conyugal_de_la_madre</th>
+<th align="left">nivel_educativo_de_la_madre</th>
+<th align="right">numero_de_hijos_nacidos_vivos</th>
+<th align="right">numero_de_embarazos</th>
+<th align="left">area_de_residencia</th>
+<th align="left">pa_s_de_residencia</th>
+<th align="left">departamento_residencia</th>
+<th align="left">municipio_residencia</th>
+<th align="left">longitud</th>
+<th align="left">latitud</th>
+<th align="left">geocoded_column</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">MASCULINO</td>
+<td align="right">2085</td>
+<td align="right">45</td>
+<td align="left">2022-05-06</td>
+<td align="right">37</td>
+<td align="right">8</td>
+<td align="left">ESPONTÁNEO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">28</td>
+<td align="left">CONTRIBUTIVO</td>
+<td align="left">EPS SURA</td>
+<td align="right">24</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">NO ESTÁ CASADA Y LLEVA DOS AÑOS O MÁS VIVIENDO CON SU PAREJA</td>
+<td align="left">BÁSICA SECUNDARIA</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ITAGÜÍ</td>
+<td align="left">-75.6143587142</td>
+<td align="left">6.16959762893</td>
+<td align="left">POINT (-75.6143587142 6.16959762893)</td>
+</tr>
+<tr class="even">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">FEMENINO</td>
+<td align="right">3000</td>
+<td align="right">47</td>
+<td align="left">2022-05-06</td>
+<td align="right">37</td>
+<td align="right">5</td>
+<td align="left">ESPONTÁNEO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">33</td>
+<td align="left">CONTRIBUTIVO</td>
+<td align="left">EPS SURA</td>
+<td align="right">29</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">NO ESTÁ CASADA Y LLEVA MENOS DE DOS AÑOS VIVIENDO CON SU PAREJA</td>
+<td align="left">PROFESIONAL</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">-75.5830101409</td>
+<td align="left">6.16700455162</td>
+<td align="left">POINT (-75.5830101409 6.16700455162)</td>
+</tr>
+<tr class="odd">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">MASCULINO</td>
+<td align="right">2905</td>
+<td align="right">50</td>
+<td align="left">2022-05-07</td>
+<td align="right">39</td>
+<td align="right">8</td>
+<td align="left">ESPONTÁNEO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">25</td>
+<td align="left">SUBSIDIADO</td>
+<td align="left">NUEVA EPS S.A.</td>
+<td align="right">21</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">NO ESTÁ CASADA Y LLEVA MENOS DE DOS AÑOS VIVIENDO CON SU PAREJA</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">LA ESTRELLA</td>
+<td align="left">-75.6451903823</td>
+<td align="left">6.15841974028</td>
+<td align="left">POINT (-75.6451903823 6.15841974028)</td>
+</tr>
+<tr class="even">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">FEMENINO</td>
+<td align="right">3700</td>
+<td align="right">50</td>
+<td align="left">2022-05-07</td>
+<td align="right">40</td>
+<td align="right">6</td>
+<td align="left">ESPONTÁNEO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">39</td>
+<td align="left">CONTRIBUTIVO</td>
+<td align="left">EPS SURA</td>
+<td align="right">32</td>
+<td align="left">TECNOLÓGICA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">NO ESTÁ CASADA Y LLEVA DOS AÑOS O MÁS VIVIENDO CON SU PAREJA</td>
+<td align="left">TÉCNICA PROFESIONAL</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">-75.5830101409</td>
+<td align="left">6.16700455162</td>
+<td align="left">POINT (-75.5830101409 6.16700455162)</td>
+</tr>
+<tr class="odd">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">FEMENINO</td>
+<td align="right">3130</td>
+<td align="right">49</td>
+<td align="left">2022-05-07</td>
+<td align="right">39</td>
+<td align="right">12</td>
+<td align="left">ESPONTÁNEO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">32</td>
+<td align="left">SUBSIDIADO</td>
+<td align="left">SAVIA SALUD E.P.S.</td>
+<td align="right">37</td>
+<td align="left">SIN INFORMACIÓN</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">ESTÁ CASADA</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ITAGÜÍ</td>
+<td align="left">-75.6143587142</td>
+<td align="left">6.16959762893</td>
+<td align="left">POINT (-75.6143587142 6.16959762893)</td>
+</tr>
+<tr class="even">
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">MASCULINO</td>
+<td align="right">3830</td>
+<td align="right">54</td>
+<td align="left">2021-10-01</td>
+<td align="right">40</td>
+<td align="right">7</td>
+<td align="left">INSTRUMENTADO</td>
+<td align="left">SIMPLE</td>
+<td align="left">NINGUNO DE LOS ANTERIORES</td>
+<td align="left">NA</td>
+<td align="right">23</td>
+<td align="left">SUBSIDIADO</td>
+<td align="left">SAVIA SALUD E.P.S.</td>
+<td align="right">28</td>
+<td align="left">MEDIA ACADÉMICA O CLÁSICA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">ENVIGADO</td>
+<td align="left">NO ESTÁ CASADA Y LLEVA DOS AÑOS O MÁS VIVIENDO CON SU PAREJA</td>
+<td align="left">TÉCNICA PROFESIONAL</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">CABECERA MUNICIPAL</td>
+<td align="left">COLOMBIA</td>
+<td align="left">ANTIOQUIA</td>
+<td align="left">SABANETA</td>
+<td align="left">-75.6155852932</td>
+<td align="left">6.15097018093</td>
+<td align="left">POINT (-75.6155852932 6.15097018093)</td>
+</tr>
+</tbody>
+</table>
+<p>A continuación ofrecemos una breve vista al analisis descriptivo previo de la información</p>
+<pre><code>##   peso_gramos   talla_cent_metros tiempo_de_gestaci_n   edad_madre   
+##  Min.   : 420   Min.   :28.00     Min.   :25.00       Min.   :13.00  
+##  1st Qu.:2754   1st Qu.:48.00     1st Qu.:37.00       1st Qu.:23.00  
+##  Median :3068   Median :49.00     Median :39.00       Median :26.50  
+##  Mean   :3023   Mean   :48.83     Mean   :38.17       Mean   :27.04  
+##  3rd Qu.:3336   3rd Qu.:50.00     3rd Qu.:39.00       3rd Qu.:32.00  
+##  Max.   :4425   Max.   :55.00     Max.   :41.00       Max.   :46.00</code></pre>
+<pre><code>## sexo
+##  FEMENINO MASCULINO 
+##       504       496</code></pre>
+<pre><code>## tipo_parto
+##       CESÁREA    ESPONTÁNEO INSTRUMENTADO 
+##           341           615            44</code></pre>
+<pre><code>## r_gimen_seguridad
+## CONTRIBUTIVO    EXCEPCIÓN NO ASEGURADO   SUBSIDIADO 
+##          655            2          119          224</code></pre>
+<p><img src="bookdown-demo_files/figure-html/analisisdesc-1.png" width="672" /><img src="bookdown-demo_files/figure-html/analisisdesc-2.png" width="672" /><img src="bookdown-demo_files/figure-html/analisisdesc-3.png" width="672" /><img src="bookdown-demo_files/figure-html/analisisdesc-4.png" width="672" /><img src="bookdown-demo_files/figure-html/analisisdesc-5.png" width="672" /></p>
+<p>Después de realizar un análisis descriptivo de algunas variables clave en el conjunto de datos, podemos llegar a varias conclusiones importantes:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Peso al nacer</strong>: El peso promedio al nacer es de aproximadamente 3023 gramos, con un rango que va desde 420 gramos hasta 4425 gramos. La mayoría de los bebés tienen un peso al nacer que oscila entre 2754 gramos y 3336 gramos, como lo indica el primer y tercer cuartil respectivamente.</p></li>
+<li><p><strong>Talla al nacer</strong>: La talla promedio al nacer es de alrededor de 48.83 centímetros, con un rango que va desde 28 centímetros hasta 55 centímetros. La mayoría de los bebés tienen una talla al nacer que oscila entre 48 y 50 centímetros, como lo indica el primer y tercer cuartil respectivamente.</p></li>
+<li><p><strong>Tiempo de gestación</strong>: El tiempo promedio de gestación es de aproximadamente 38.17 semanas, con un rango que va desde 25 semanas hasta 41 semanas. La mayoría de las gestaciones tienen una duración que oscila entre 37 y 39 semanas, como lo indica el primer y tercer cuartil respectivamente.</p></li>
+<li><p><strong>Edad de la madre</strong>: La edad promedio de la madre es de alrededor de 27.04 años, con un rango que va desde 13 años hasta 46 años. La mayoría de las madres tienen una edad que oscila entre 23 años y 32 años, como lo indica el primer y tercer cuartil respectivamente.</p></li>
+</ol>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="iDescomposicion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
