@@ -106,12 +106,14 @@ Los cambios en la serie de tiempo son consistentes y no muestran fluctuaciones i
 En la grafica se observa un leve patron estacional
 
 ```{r comparacion de estados}
-# Comparaciones de estados
-
 ts.plot(descomposicion_aditiva$seasonal,descomposicion_aditiva$random, col=c("blue","red"))
 
 title(main = "Descomposición Aditiva: Componentes Estacionales y Aleatorios", line = 1)
 ```
+
+
+
+
 
 
 

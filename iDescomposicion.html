@@ -271,11 +271,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>La tendencia y la estacionalidad no interactúan de manera compleja entre sí.
 Los cambios en la serie de tiempo son consistentes y no muestran fluctuaciones inusuales o extremas.</p>
 <p>En la grafica se observa un leve patron estacional</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="iDescomposicion.html#cb15-1" tabindex="-1"></a><span class="co"># Comparaciones de estados</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="iDescomposicion.html#cb15-1" tabindex="-1"></a><span class="fu">ts.plot</span>(descomposicion_aditiva<span class="sc">$</span>seasonal,descomposicion_aditiva<span class="sc">$</span>random, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>))</span>
 <span id="cb15-2"><a href="iDescomposicion.html#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="iDescomposicion.html#cb15-3" tabindex="-1"></a><span class="fu">ts.plot</span>(descomposicion_aditiva<span class="sc">$</span>seasonal,descomposicion_aditiva<span class="sc">$</span>random, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>))</span>
-<span id="cb15-4"><a href="iDescomposicion.html#cb15-4" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="iDescomposicion.html#cb15-5" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main =</span> <span class="st">&quot;Descomposición Aditiva: Componentes Estacionales y Aleatorios&quot;</span>, <span class="at">line =</span> <span class="dv">1</span>)</span></code></pre></div>
+<span id="cb15-3"><a href="iDescomposicion.html#cb15-3" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main =</span> <span class="st">&quot;Descomposición Aditiva: Componentes Estacionales y Aleatorios&quot;</span>, <span class="at">line =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/comparacion%20de%20estados-1.png" width="672" /></p>
 
 </div>
