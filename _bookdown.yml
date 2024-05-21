@@ -1,7 +1,5 @@
-book_filename: "bookdown-demo"
-output_dir: "_book"
+delete_merged_file: true
+output_dir: "docs"
 language:
   ui:
-    chapter_name: "Capitulo "
-delete_merged_file: true
-rmd_files: ["index.Rmd", "Justificacion.Rmd","PromedioMovil.Rmd", "Estacionalidad.Rmd","Rezagos.Rmd","Descomposicion.Rmd","HoltWinters.Rmd"]
+    chapter_name: "Chapter "

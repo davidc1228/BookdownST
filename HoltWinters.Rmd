@@ -46,7 +46,7 @@ Recordemos nuevamente nuestros datos:
 
 ### Nuestros datos.
 
-```{r serie_temporal, echo=FALSE, warning=FALSE, include=TRUE}
+```{r serie_temporal_2, echo=FALSE, warning=FALSE, include=TRUE}
 
 serie_temporal <- ts(GraficoShiny_2$NumeroNacidos, start = c(2018, 01), end = c(2023, 12), frequency = 24)
 
