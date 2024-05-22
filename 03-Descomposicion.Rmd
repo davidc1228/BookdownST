@@ -63,12 +63,12 @@ En este codigo se observa la descomposición aditiva la cual es un método que d
 library(forecast, warn.conflicts = FALSE)
 library(ggplot2, warn.conflicts = FALSE)
 descomposicion_aditiva<-decompose(dfts2,type = "additive")
-autoplot(descomposicion_aditiva,main="Descomposición Aditiva",xlab="Años/Meses")
+print(autoplot(descomposicion_aditiva,main="Descomposición Aditiva",xlab="Años/Meses"))
 ```
 
 ```{r descomposicionmultiplicativa_, include=TRUE, echo=FALSE, warning=FALSE}
 descomposicion_multiplicatica<-decompose(dfts2,type = "multiplicative")
-autoplot(descomposicion_multiplicatica,main="Descomposición Multiplicativa",xlab="Años/Meses")
+print(autoplot(descomposicion_multiplicatica,main="Descomposición Multiplicativa",xlab="Años/Meses"))
 ```
 
 La diferencia principal entre la descomposición aditiva y la multiplicativa radica en cómo se modelan las tendencias y las estacionalidades en una serie de tiempo.
