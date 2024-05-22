@@ -5,12 +5,6 @@ descripción-de-los-datos.
 vista-rapida-de-datos.
 Justificacion.
 iDescomposicion
-Estacionalidad
-porcentaje-de-estacionalidad-por-mes-y-año-2021-2024
-HoltWinters
-nuestros-datos.
-aplicando-holt-winters.
-conclusiones-holt-winters.
 PromedioMovil.
 análisis-de-nuestro-dataframe.
 boxplot-nacidos-por-año.
@@ -19,3 +13,9 @@ ejemplo-promedio-movil-simple-sma
 ejemplo-promedio-movil-exponencial-ema
 conclusiones
 Rezagos
+Estacionalidad
+porcentaje-de-estacionalidad-por-mes-y-año-2021-2024
+HoltWinters
+nuestros-datos.
+aplicando-holt-winters.
+conclusiones-holt-winters.
