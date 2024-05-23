@@ -14,12 +14,44 @@ description: "Proyecto Series de Tiempo"
 
 # Proyecto
 
-
+<div style="text-align:justify;">
 Este proyecto se enfoca en el análisis del patrón de la información publicada para los "Nacidos Vivos en el Hospital Manuel Uribe Ángel" en Colombia. Para ello, implementaremos el conjunto de datos obtenido de fuentes abiertas del gobierno colombiano. Nuestro objetivo primordial radica en llevar a cabo un análisis descriptivo exhaustivo de estos datos, con el propósito de identificar y comprender los patrones subyacentes presentes en las series temporales relacionadas con los nacimientos en este hospital.
 
 A través de un enfoque metodológico riguroso, nos adentraremos en la exploración detallada de cada aspecto de los datos. Nos comprometemos a aplicar técnicas analíticas avanzadas para detectar y evaluar tendencias, variaciones estacionales y posibles correlaciones entre los diferentes atributos registrados. Este análisis no solo busca comprender la distribución temporal de los nacimientos, sino también examinar cualquier fluctuación significativa que pueda influir en la dinámica de la salud materna en la región.
 
 Al implementar este conjunto de datos, aspiramos a no solo generar conocimiento sobre los patrones de nacimientos en el Hospital Manuel Uribe Ángel, sino también a proporcionar información valiosa para informar futuras investigaciones y políticas de salud pública. Este proyecto representa un esfuerzo centrado en la obtención de insights precisos y prácticos a partir de datos concretos, con el objetivo último de contribuir al avance del conocimiento en el campo de la salud materna y la atención médica en Colombia.
+<div/>
+
+## Descripción de los datos.
+
+|                     |                        |
+|---------------------|------------------------|
+| Descripción         |  Conjunto de datos con los nacimientos reportados por el Hospital Manuel Uribe Ángel, con una cohorte desde el 2018.                 |
+| Fuente de información | Datos abiertos colombia: https://www.datos.gov.co/Estad-sticas-Nacionales/Nacidos-Vivos-en-Hospital-Manuel-Uribe-Angel/udqu-ifxr/about_data|
+| Fecha de creación   | 8 de octubre de 2019  |
+| Actualizado         | 26 de marzo de 2024   |
+| Suministró los datos| Hospital Manuel Uribe Angel |
+| Propietario de conjunto de datos | E.S.E. Hospital Manuel Uribe Ángel |
+| Nombre de la Entidad | Hospital Manuel Uribe Ángel |
+| Sector             | Salud y Protección Social |
+| Departamento       | Antioquia              |
+| Municipio          | Envigado               |
+| URL Normativa      | https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/DIJ/Decreto-1171-de-1997.pdf          |
+
+---
+
+## Vista rapida de datos.
+
+
+```{r HeadTable, include=TRUE, echo=FALSE, warning=FALSE}
+
+library("RSocrata")
+library(knitr)
+
+datos <- read.csv("data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv")
+kable(head(datos,7), format = "markdown", caption = "Conjunto de datos.",fontsize = 10)
+
+```
 
 
 ```{r include=FALSE}
