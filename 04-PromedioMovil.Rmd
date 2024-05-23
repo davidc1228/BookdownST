@@ -87,12 +87,22 @@ GraficoShiny$FECHA <- as.Date(GraficoShiny$FECHA)
 
 GraficoShiny$YEAR <- format(GraficoShiny$FECHA, "%Y")
 
+# # Crear el box plot por año con la mediana
+# boxplot(NumeroNacidos ~ YEAR, data = GraficoShiny, xlab = "Año", ylab = "Número de Nacidos", main = "Número de nacidos por año", 
+#         notch = TRUE, medcol = "red")
 
+library(plotly)
 
-# Crear el box plot por año con la mediana
-boxplot(NumeroNacidos ~ YEAR, data = GraficoShiny, xlab = "Año", ylab = "Número de Nacidos", main = "Número de nacidos por año", 
-        notch = TRUE, medcol = "red")
-
+# Crear el box plot por año con la mediana usando plotly
+plot_ly(GraficoShiny, x = ~YEAR, y = ~NumeroNacidos, type = "box", 
+        #boxpoints = "all",
+        jitter = 0.5,
+        #pointpos = -1.8, 
+        marker = list(color = 'rgba(7, 40, 89, 0.5)', size = 3),
+        line = list(color = 'rgba(7, 40, 89, 1)')) %>%
+  layout(title = "Número de nacidos por año",
+         xaxis = list(title = "Año"),
+         yaxis = list(title = "Número de Nacidos"))
 
 ```
 <div style="text-align:justify;">
