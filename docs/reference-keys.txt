@@ -1,5 +1,7 @@
+tab:HeadTable
 proyecto
-intro
+descripción-de-los-datos.
+vista-rapida-de-datos.
 Justificacion.
 iDescomposicion
 PromedioMovil.
