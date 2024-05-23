@@ -1,8 +1,5 @@
-tab:HeadTable
-tab:estacionalidad5
 proyecto
-descripción-de-los-datos.
-vista-rapida-de-datos.
+intro
 Justificacion.
 iDescomposicion
 PromedioMovil.

@@ -105,6 +105,7 @@ plot_ly(GraficoShiny, x = ~YEAR, y = ~NumeroNacidos, type = "box",
          yaxis = list(title = "Número de Nacidos"))
 
 ```
+
 <div style="text-align:justify;">
 El gráfico de boxplot es muy revelador, ya que nos muestra claramente que mientras la mediana para el año 2018 es de 9 y para el año 2019 es de 10, podría suponerse que la mediana para el 2020 sería mayor a 10. Sin embargo, esto no fue así, ya que el año 2020 fue atípico para todos los sectores, incluido el sector de la salud. Observamos que el año 2020 marcó una tendencia crucial y significativa en la mediana, ya que desde entonces hasta el año 2023, la mediana no ha experimentado grandes cambios y siempre ha permanecido alrededor de 7.
 </div>
@@ -113,12 +114,12 @@ El gráfico de boxplot es muy revelador, ya que nos muestra claramente que mient
 
 ```{r serie_temporal, echo=FALSE, warning=FALSE, include=TRUE}
 
-serie_temporal <- zoo(GraficoShiny_2$NumeroNacidos, order.by = as.Date(GraficoShiny_2$FECHA))
-
-plot(serie_temporal, type = "l", xlab = "Fecha", ylab = "NumeroNacidos", main = "Serie Temporal de NumeroNacidos")
-
-abline(h = 21, col = "red", lty = 2)  # Línea roja en y = 20
-abline(h = 2, col = "blue", lty = 2)  # Línea azul en y 
+plot_ly(data = GraficoShiny_2, x = ~FECHA) %>%
+  add_lines(y = ~NumeroNacidos, name = "NumeroNacidos", line = list(color = "orange")) %>%
+  layout(title = "Serie temporal de numeros de nacidos",
+         xaxis = list(title = "Año"),
+         yaxis = list(title = "Numero de nacidos"),
+         legend = list(orientation = "h", y = 1, yanchor = "bottom", x = 0.5, xanchor = "center"))
 
 ```
 
