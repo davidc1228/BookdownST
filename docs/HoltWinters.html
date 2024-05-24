@@ -23,7 +23,7 @@
 <meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
 
 
-<meta name="date" content="2024-05-23" />
+<meta name="date" content="2024-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -64,7 +64,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -100,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,9 +260,9 @@ Ahora utilizaremos la funcion descompose para ver la descomposicion de nuestra s
 <li>Es más adecuado cuando la magnitud de la estacionalidad no cambia en proporción al nivel de la serie temporal. En otras palabras, la estacionalidad no crece o disminuye con el nivel de los datos.</li>
 </ul>
 <p>ahora aplicaremos nuestro modelo Holt-winter additive a nuestra serie de tiempo en el siguiente segmento de codigo:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="HoltWinters.html#cb12-1" aria-hidden="true" tabindex="-1"></a>HW_additive <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(dfts3, <span class="at">seasonal =</span> <span class="st">&quot;additive&quot;</span>)</span>
-<span id="cb12-2"><a href="HoltWinters.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;alpha &quot;</span>,HW_additive<span class="sc">$</span>alpha, <span class="st">&quot; beta&quot;</span>,HW_additive<span class="sc">$</span>beta,<span class="st">&quot; gamma&quot;</span>, HW_additive<span class="sc">$</span>gamma)</span></code></pre></div>
-<pre><code>## [1] &quot;alpha  0.24610451750183  beta 0.00257109348719084  gamma 0.375739470224139&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="HoltWinters.html#cb12-1" tabindex="-1"></a>HW_additive <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(dfts3, <span class="at">seasonal =</span> <span class="st">&quot;additive&quot;</span>)</span>
+<span id="cb12-2"><a href="HoltWinters.html#cb12-2" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;alpha &quot;</span>,HW_additive<span class="sc">$</span>alpha, <span class="st">&quot; beta&quot;</span>,HW_additive<span class="sc">$</span>beta,<span class="st">&quot; gamma&quot;</span>, HW_additive<span class="sc">$</span>gamma)</span></code></pre></div>
+<pre><code>## [1] &quot;alpha  0.24610451750226  beta 0.00257109348712916  gamma 0.375739470223313&quot;</code></pre>
 <p>En la salida observamos como aplicamos nuestro modelo y tambien podria observar el valor de cada uno de nuestros coeficientes, pero en este caso solo nos interesan nuestros parametros de suavisado, a continuación se explicaran:</p>
 <p><strong>alpha:</strong> es de 0.24610451750226 nuestro modelo alpha tiene un valor bajo, esto quiere decir que no se le da un mayor peso a las observaciones pasadas.</p>
 <p><strong>beta:</strong> 0.00257109348712916 este valor es muy bajo lo que quiere decir que el modelo casi que no tiene en cuenta la tendencia actual.</p>
@@ -286,7 +286,7 @@ cuando intentamos pronosticar los proximos 24 meses, vemos como nuestro modelo s
 <li>Es más apropiado cuando la magnitud de la estacionalidad varía en proporción al nivel de la serie temporal. En este caso, la estacionalidad aumenta o disminuye en relación con el nivel de los datos.</li>
 </ul>
 <p>ahora aplicaremos nuestro modelo Holt-winter multiplicativo a nuestra serie de tiempo en el siguiente segmento de codigo:</p>
-<pre><code>## [1] &quot;alpha  0.0263718450831247  beta 0.0619052437821649  gamma 0.323835874453202&quot;</code></pre>
+<pre><code>## [1] &quot;alpha  0.026371845082938  beta 0.0619052437826439  gamma 0.323835874454532&quot;</code></pre>
 <p><strong>alpha:</strong> es de 0.026371845082938 nuestro modelo alpha tiene un valor bajo, esto quiere decir que no se le da un mayor peso a las observaciones pasadas, es un poco mas alta que el modelo aditivo.</p>
 <p><strong>beta:</strong> 0.0619052437826439 este valor es muy bajo lo que quiere decir que el modelo casi no tiene en cuenta la tendencia actual, pero es mucho mas alto que el modelo aditivo.</p>
 <p><strong>gamma:</strong> 0.323835874454532 este valor esta mas cercano a 1 que los anteriores lo cual lo consideramos como valor moderado, el cual otorga peso a las observaciones pasadas y recientes en la estimación de la estacionalidad actual, este valor es el unico que esta por debo con respecto al modelo aditivo.</p>
@@ -298,7 +298,7 @@ cuando intentamos pronosticar los proximos 24 meses, vemos como nuestro modelo s
 <p><img src="_main_files/figure-html/forecastHWM_2-1.png" width="672" /></p>
 <p>Reafirmamos el anterior parrafo:
 En general, el modelo Holt-Winters multiplicativo demuestra eficacia en la predicción de valores promedio. Sin embargo, muestra debilidad al enfrentarse a cambios abruptos en la tendencia, siendo menos capaz de anticipar estos cambios que su contraparte aditiva. Además, en muchos picos tiende a disminuir el número de nacidos vivos, lo que sugiere que es más conservador en sus predicciones que el modelo aditivo.
-"
+”
 cuando intentamos pronosticar los proximos 24 meses, vemos como nuestro modelo se apega demasiado a nuestros valores promedios, al igual que el modelo Holt-Winters Aditivo.</p>
 <p><br>
 <br></p>
@@ -381,6 +381,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
