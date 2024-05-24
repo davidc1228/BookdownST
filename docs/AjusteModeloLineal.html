@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Rezagos | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</title>
+  <title>Chapter 8 AjusteModeloLineal | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel</title>
   <meta name="description" content="Proyecto Series de Tiempo" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Rezagos | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  <meta property="og:title" content="Chapter 8 AjusteModeloLineal | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Proyecto Series de Tiempo" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Rezagos | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
+  <meta name="twitter:title" content="Chapter 8 AjusteModeloLineal | Analisis para Nacidos Vivos en el hospital Manuel Uribe Angel" />
   
   <meta name="twitter:description" content="Proyecto Series de Tiempo" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="PromedioMovil..html"/>
-<link rel="next" href="Estacionalidad.html"/>
+<link rel="prev" href="HoltWinters.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -202,48 +202,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Rezagos" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Rezagos<a href="Rezagos.html#Rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div style="text-align:justify;">
-<p>Los rezagos se usan para evaluar los valores de un conjunto de datos o una serie de tiempo y saber si es aleatoria o no. Si los datos son aleatorios las graficas no mostraran un comportamiento identificable y si los datos no son aleatorios, las graficas mostraran un comportamiento identificable. Los rezagos tambien ayudan a identificar outliers.</p>
+<div id="AjusteModeloLineal" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> AjusteModeloLineal<a href="AjusteModeloLineal.html#AjusteModeloLineal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="r-markdown" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> R Markdown<a href="AjusteModeloLineal.html#r-markdown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="AjusteModeloLineal.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
 </div>
-<ul>
-<li>Preparación de los datos</li>
-</ul>
-<p>Este código carga datos de nacimientos y los agrupa para calcular el número total de nacidos vivos por fecha teniendo en cuenta los partos dobles o simples.</p>
-<div style="text-align:justify;">
-<p>Este código crea un histograma que muestra la distribución de las fechas de nacimiento en el conjunto de datos df. Cada barra en el histograma representa el número de personas nacidas en un año específico.</p>
-</div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="Rezagos.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb6-2"><a href="Rezagos.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> FECHA )) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="Rezagos.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">360</span>) <span class="sc">+</span>  <span class="co"># Establecemos el ancho de las barras en 1 mes (30 días)</span></span>
-<span id="cb6-4"><a href="Rezagos.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribucion de fechas de nacimiento&quot;</span>,</span>
-<span id="cb6-5"><a href="Rezagos.html#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Fecha de nacimiento&quot;</span>,</span>
-<span id="cb6-6"><a href="Rezagos.html#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/libreria_ggplot-1.png" width="672" /></p>
-<p>Este código filtra y resume los datos de nacimientos para un período específico, luego crea una serie de tiempo a partir de estos datos y la imprime para su visualización.</p>
-<p>Este código traza una serie de tiempo en un gráfico, donde el eje x representa los años y el eje y representa los valores de la serie de tiempo.</p>
-<p>Este codigo se utiliza para obtener la fecha de inicio y la fecha de finalización de la serie de tiempo.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="Rezagos.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">start</span>(dfts)</span></code></pre></div>
-<pre><code>## [1] 2021   10</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="Rezagos.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">end</span>(dfts)</span></code></pre></div>
-<pre><code>## [1] 2022    2</code></pre>
-<div style="text-align:justify;">
-<p>El gráfico de rezagos muestra la relación entre los valores de la serie de tiempo en un período de tiempo y los valores de la misma serie de tiempo en períodos de tiempo anteriores (rezagos)en este caso se tomaron 9 periodos o rezagos. Este analisis ayuda a identificar la autocorrelación en los datos, es decir, si los valores de la serie de tiempo están correlacionados consigo mismos en el tiempo. Esto puede ser útil para diagnosticar si hay patrones temporales en los datos.</p>
-<p>En la grafica no se observa un comportamiento identificable, es posible que los datos sean aleatorios. Como el comportamiento no se repite entre estas distancias esto puede inferir que no existe estacionalidad.</p>
-</div>
-<div style="text-align:justify;">
-<p>Este codigo crea un gráfico que muestra la serie de tiempo original y sus rezagos, lo que permite visualizar cómo los valores de la serie de tiempo están correlacionados con sus valores pasados.</p>
-</div>
+<div id="including-plots" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Including Plots<a href="AjusteModeloLineal.html#including-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You can also embed plots, for example:</p>
+<p><img src="_main_files/figure-html/pressure-1.png" width="672" /></p>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="PromedioMovil..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="Estacionalidad.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="HoltWinters.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +262,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-Rezagos.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/08-AjusteModeloLineal.Rmd",
 "text": "Edit"
 },
 "history": {

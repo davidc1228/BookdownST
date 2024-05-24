@@ -1,4 +1,5 @@
 tab:HeadTable
+tab:estacionalidad5
 proyecto
 descripción-de-los-datos.
 vista-rapida-de-datos.
@@ -18,3 +19,6 @@ HoltWinters
 nuestros-datos.
 aplicando-holt-winters.
 conclusiones-holt-winters.
+AjusteModeloLineal
+r-markdown
+including-plots
