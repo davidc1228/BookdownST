@@ -1,0 +1,183 @@
+# Modelo estacional 
+
+**Modelo ARIMA**
+
+ARIMA significa "Autoregressive Integrated Moving Average", es un modelo estadístico ampliamente utilizado para analizar y predecir series temporales. Es especialmente útil para series que son estacionarias o que pueden ser transformadas en estacionarias mediante diferenciación. El modelo ARIMA combina tres componentes básicos: autorregresión (AR), diferenciación (I) y promedios móviles (MA).
+
+
+**Componentes del modelo ARIMA**
+
+AR (p) - Autorregresión: Un componente que usa la dependencia entre una observación y un número de observaciones retrasadas (lagged observations). El parámetro 'p' representa el número de términos autorregresivos. Por ejemplo, si p es 3, el valor predicho de la serie en un tiempo determinado sería una función de los valores en los tres periodos anteriores.
+
+I (d) - Diferenciación: Este componente se utiliza para hacer la serie temporal estacionaria, es decir, para remover efectos como tendencias o ciclicidad. 'd' representa el número de diferenciaciones necesarias para alcanzar la estacionariedad. Si una serie temporal tiene una tendencia lineal, una diferenciación (d=1) debería ser suficiente para eliminar esa tendencia.
+
+MA (q) - Promedio Móvil: Un modelo que usa la dependencia entre una observación y un residuo de un modelo de media móvil aplicado a observaciones retrasadas. El parámetro 'q' indica el número de términos del promedio móvil.
+
+
+**Cómo funciona el modelo ARIMA**
+
+El proceso de ajuste de un modelo ARIMA generalmente implica los siguientes pasos:
+
+Identificación y Estimación: Determinar si la serie temporal necesita ser diferenciada para hacerla estacionaria (usualmente verificando la función de autocorrelación y la función de autocorrelación parcial). Luego, identificar los posibles valores para los parámetros p y q.
+
+Estimación de parámetros: Usar técnicas como Máxima Verosimilitud o mínimos cuadrados para estimar los parámetros del modelo seleccionado.
+
+Diagnóstico del modelo: Evaluar la calidad del modelo ajustado verificando si los residuos del modelo parecen ser "ruido blanco" (es decir, son estacionarios y no muestran patrones autocorrelativos).
+
+
+```{r datos}
+#Cargar los datos y prepararlos
+
+library(dplyr, warn.conflicts = FALSE)
+
+DatosNacidos <- read.csv(file = "data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv")
+
+DatosNacidos$FECHA <- substr(DatosNacidos$FECHA,1,10)
+DatosNacidos$FECHA <- as.Date(DatosNacidos$FECHA, format = "%m/%d/%Y")
+
+agrupnacidos <- DatosNacidos %>% 
+                   group_by(FECHA, MULTIPLICIDAD.EMBARAZO) %>% 
+                   summarize(NumeroPartos = n(), .groups = 'drop')
+
+agrupnacidos$NumeroNacidos <- 
+  ifelse(agrupnacidos$MULTIPLICIDAD.EMBARAZO == "DOBLE",agrupnacidos$NumeroPartos*2,agrupnacidos$NumeroPartos)
+
+agrupnacidos_2 <- agrupnacidos %>% 
+                   group_by(FECHA) %>% 
+                   summarize(NumeroNacidos=sum(NumeroNacidos), .groups = 'drop')
+
+
+print(agrupnacidos_2)
+```
+Visualizamos los datos
+
+```{r ts}
+# Crear la serie de tiempo
+
+dfts2 <- ts(agrupnacidos_2$NumeroNacidos, start = c(2018, 1), end = c(2023, 12), frequency = 12)
+
+par(mfrow=c(1,1))
+plot(dfts2, type = 'l', main = "Serie Temporal", ylab = "Valores", xlab = "Tiempo")
+boxplot(dfts2, horizontal = TRUE, main = "Boxplot de Serie Temporal", xlab = "Valores")
+```
+
+Aplicamos el test de Dickey-Fuller Aumentado (ADF) para evaluar si una serie temporal es estacionaria o si contiene una raíz.
+
+```{r verificacion}
+# Cargar las bibliotecas necesarias
+library(forecast)
+library(tseries)
+library(aTSA)
+
+# Verificar estacionariedad
+test <- adf.test(dfts2)
+
+```
+
+los resultados del test ADF sugieren que la serie temporal es estacionaria después de considerar estos componentes. Esto implica que cualquier tendencia o deriva en los datos originales puede explicarse por estos factores.
+
+Este resultado indica que podría no necesitar diferenciar la serie para alcanzar la estacionariedad.
+
+
+Con las graficas de autocorrelación (ACF) y la función de autocorrelación parcial (PACF) podemos explicar el comportamiento de los datos
+
+```{r ACF-PACF}
+# Graficar ACF y PACF
+
+acf(dfts2)
+pacf(dfts2)
+
+```
+En la gráfica ACF:
+
+Se observa un decrecimiento gradual en las barras de autocorrelación, empezando con un valor muy alto en el primer lag y luego disminuyendo lentamente. Esto sugiere la presencia de una dependencia que se extiende a varios lags.
+Las barras que se extienden fuera del área azul (los límites de confianza) indican correlaciones significativas en esos lags.
+
+En la gráfica PACF:
+
+Hay dos lags donde las autocorrelaciones parciales son significativas (es decir, que se extienden más allá de los límites de confianza), específicamente en los primeros lags.
+La mayoría de los valores vuelven a estar dentro del área de confianza.
+
+
+Podemos empezar por un modelo ARIMA con bajos niveles de Autoregresión.
+
+```{r Modelo ARIMA}
+# Asegúrate de cargar el paquete forecast
+library(forecast)
+
+# Ajusta un modelo ARIMA a la serie de tiempo dfts2
+modelari2 <- auto.arima(dfts2, stepwise = FALSE, approximation = FALSE, allowdrift = TRUE)
+
+# Revisar el resumen del modelo, incluyendo los outliers
+summary(modelari2)
+
+```
+
+Apesar que las pruebas anteriores sugieren que la data es estacionaria, el modelo Auto.arima definio que debia hacerse una diferenciación para detectar estructuras en los datos que aún podrían beneficiarse, como pequeñas autocorrelaciones no detectadas en los tests de estacionariedad.
+
+ACF1: -0.03422207, indica que hay poca autocorrelación en los residuos, lo cual es un buen indicativo de que el modelo está capturando adecuadamente la estructura de dependencia de los datos.
+
+
+```{r outliers}
+# Extraer coeficientes del modelo
+coeficientes <- coef(modelari2)
+
+# Identificar y extraer detalles de los outliers
+outliers <- coeficientes[grep("AO|TC", names(coeficientes))]
+if (length(outliers) > 0) {
+  print(outliers)
+} else {
+  cat("No se encontraron outliers.\n")
+}
+
+```
+
+Aca se puede identificar que NO hay outliers estadísticamente significativos que necesitaran ser modelados. El modelo ARIMA(2,1,1) ha capturado adecuadamente la estructura de la serie temporal sin la necesidad de ajustar términos adicionales para outliers. Esto implica que la dinámica de la serie puede ser explicada suficientemente bien por las relaciones autorregresivas y de media móvil junto con la diferenciación que se incorporó.
+
+
+
+
+```{r grafica de outliers}
+# Cargar las librerías necesarias
+library(ggplot2)
+
+# Preparar datos para graficar
+ts_data <- data.frame(Time = time(dfts2), Data = as.numeric(dfts2), Outlier = ifelse(time(dfts2) %in% names(outliers), "Yes", "No"))
+
+# Crear gráfico
+ggplot(ts_data, aes(x = Time, y = Data, color = Outlier)) +
+  geom_line() +
+  geom_point(data = subset(ts_data, Outlier == "Yes"), aes(x = Time, y = Data), color = "red") +
+  labs(title = "Time Series with Outliers", x = "Time", y = "Data")
+
+```
+
+Con esta grafica tratamos de visualizar los outliers, sin embargo, como lo vimos anteriormente, no se identificaron puntos específicos significativos en la serie temporal según el modelo ARIMA(2,1,1) ajustado.
+
+
+
+Se hace un Check de los residuos para confirmar el diagnostico del modelo.
+
+```{r Residuales}
+# Diagnóstico de residuales
+checkresiduals(modelari2)
+
+```
+
+Los residuos no muestran patrones autocorrelacionados significativos, lo cual es una buena señal en términos de ajuste del modelo. 
+
+El modelo ARIMA(2,1,1) ha hecho un buen trabajo modelando la serie temporal. Los residuos parecen ser mayormente no correlacionados y distribuidos de manera aleatoria alrededor del cero, y la prueba Ljung-Box confirma que no hay autocorrelación significativa en los residuos. Esto sugiere que el modelo es adecuado y que ha capturado la mayor parte de la información en los datos.
+
+Un p-value alto (0.7449) sugiere que no hay evidencia suficiente para rechazar la hipótesis nula de independencia de los residuos, lo cual es consistente con los residuos comportándose como ruido blanco.
+
+
+
+
+```{r prediccion}
+# Predicción
+future <- forecast::forecast(modelari2, h = 12)
+plot(future, main="Pronóstico con auto.arima",xlab="Año",ylab="nacidos vivos")
+grid()
+```
+Las predicciones parecen seguir la tendencia y los patrones de los últimos datos observados. El modelo parece capturar bien las fluctuaciones de la serie y proyecta una continuación de esta dinámica en el corto plazo.
+
