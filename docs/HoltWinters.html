@@ -219,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Recordemos nuevamente nuestros datos:</p>
 <div id="nuestros-datos." class="section level3 hasAnchor" number="7.0.1">
 <h3><span class="header-section-number">7.0.1</span> Nuestros datos.<a href="HoltWinters.html#nuestros-datos." class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="_main_files/figure-html/serie_temporal_2-1.png" width="672" /></p>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/serie_temporal_2-1.png" width="672" /></p>
 <p>Validamos si nuestros datos son estacionarios:</p>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
@@ -237,7 +237,7 @@ Ahora utilizaremos la funcion descompose para ver la descomposicion de nuestra s
 <div/>
 
 <p><br></p>
-<p><img src="_main_files/figure-html/PlotDescompose-1.png" width="672" />
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/PlotDescompose-1.png" width="672" />
 <br></p>
 <div style="text-align:justify;">
 <p><strong>Tendencia (Trend):</strong> La tendencia describe la dirección general en la que los datos cambian con el tiempo. En el contexto del modelo Holt-Winters, esta tendencia se identifica y se incorpora para realizar pronósticos futuros. En nuestra serie temporal, observamos fluctuaciones notables en la tendencia a lo largo de los años. Por ejemplo, a principios de 2019, la tendencia muestra una marcada disminución, seguida de un repunte hacia mediados de 2020 y posteriormente, una nueva caída. Sin embargo, a partir de 2022, la tendencia muestra un claro aumento en el número de nacimientos vivos, lo que sugiere una tendencia alcista continua.</p>
@@ -271,10 +271,10 @@ Ahora utilizaremos la funcion descompose para ver la descomposicion de nuestra s
 <p><strong>beta:</strong> 0.00257109348712916 este valor es muy bajo lo que quiere decir que el modelo casi que no tiene en cuenta la tendencia actual.</p>
 <p><strong>gamma:</strong> 0.375739470223313 este valor esta mas cercano a 1 que los anteriores lo cual lo consideramos como valor moderado, el cual otorga peso a las observaciones pasadas y recientes en la estimación de la estacionalidad actual.</p>
 <p>Veamos el comportamiento de nuestro modelo <strong>Holt-Winters aditivo</strong></p>
-<p><img src="_main_files/figure-html/HW_additive_plot-1.png" width="672" /></p>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/HW_additive_plot-1.png" width="672" /></p>
 <p>En general, el modelo demuestra eficacia en la predicción de valores promedio. Sin embargo, muestra debilidad al enfrentarse a cambios abruptos en la tendencia. Específicamente, el modelo Holt-Winters aditivo no logra anticipar estos cambios. A pesar de ello, procederemos a realizar pronósticos para los próximos 24 meses utilizando este modelo.</p>
 <p><br></p>
-<p><img src="_main_files/figure-html/forecastHWA-1.png" width="672" /></p>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/forecastHWA-1.png" width="672" /></p>
 <p>Reafirmamos el anterior parrafo:
 “En general, el modelo demuestra eficacia en la predicción de valores promedio. Sin embargo, muestra debilidad al enfrentarse a cambios abruptos en la tendencia. Específicamente, el modelo Holt-Winters aditivo no logra anticipar estos cambios.”
 cuando intentamos pronosticar los proximos 24 meses, vemos como nuestro modelo se apega demasiado a nuestros valores promedios.
@@ -294,11 +294,11 @@ cuando intentamos pronosticar los proximos 24 meses, vemos como nuestro modelo s
 <p><strong>beta:</strong> 0.0619052437826439 este valor es muy bajo lo que quiere decir que el modelo casi no tiene en cuenta la tendencia actual, pero es mucho mas alto que el modelo aditivo.</p>
 <p><strong>gamma:</strong> 0.323835874454532 este valor esta mas cercano a 1 que los anteriores lo cual lo consideramos como valor moderado, el cual otorga peso a las observaciones pasadas y recientes en la estimación de la estacionalidad actual, este valor es el unico que esta por debo con respecto al modelo aditivo.</p>
 <p>Veamos el comportamiento de nuestro modelo <strong>Holt-Winters multiplicativo</strong></p>
-<p><img src="_main_files/figure-html/HW_multiplicative_plot-1.png" width="672" /></p>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/HW_multiplicative_plot-1.png" width="672" /></p>
 <p>En general, el modelo Holt-Winters multiplicativo demuestra eficacia en la predicción de valores promedio. Sin embargo, muestra debilidad al enfrentarse a cambios abruptos en la tendencia, siendo menos capaz de anticipar estos cambios que su contraparte aditiva. Además, en muchos picos tiende a disminuir el número de nacidos vivos, lo que sugiere que es más conservador en sus predicciones que el modelo aditivo.</p>
 <p>A pesar de ello, procederemos a realizar pronósticos para los próximos 24 meses utilizando este modelo.</p>
 <p><br></p>
-<p><img src="_main_files/figure-html/forecastHWM_2-1.png" width="672" /></p>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/forecastHWM_2-1.png" width="672" /></p>
 <p>Reafirmamos el anterior parrafo:
 En general, el modelo Holt-Winters multiplicativo demuestra eficacia en la predicción de valores promedio. Sin embargo, muestra debilidad al enfrentarse a cambios abruptos en la tendencia, siendo menos capaz de anticipar estos cambios que su contraparte aditiva. Además, en muchos picos tiende a disminuir el número de nacidos vivos, lo que sugiere que es más conservador en sus predicciones que el modelo aditivo.
 ”
