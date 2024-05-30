@@ -23,7 +23,7 @@
 <meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
 
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,9 +179,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html"><i class="fa fa-check"></i><b>8</b> AjusteModeloLineal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#r-markdown"><i class="fa fa-check"></i><b>8.1</b> R Markdown</a></li>
-<li class="chapter" data-level="8.2" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#including-plots"><i class="fa fa-check"></i><b>8.2</b> Including Plots</a></li>
+<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#modelo-lineal"><i class="fa fa-check"></i><b>8.1</b> Modelo Lineal</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#resultados-del-modelo"><i class="fa fa-check"></i><b>8.1.1</b> Resultados del Modelo</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="modelo-estacional.html"><a href="modelo-estacional.html"><i class="fa fa-check"></i><b>9</b> Modelo estacional</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -225,8 +228,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="iDescomposicion.html#cb1-8" tabindex="-1"></a><span class="co"># Imprimir la serie de tiempo</span></span>
 <span id="cb1-9"><a href="iDescomposicion.html#cb1-9" tabindex="-1"></a><span class="co">#print(dfts2)</span></span></code></pre></div>
 <p>En este codigo se observa la descomposición aditiva la cual es un método que descompone una serie de tiempo en tres componentes principales: tendencia, estacionalidad y residuos. La tendencia representa la dirección general en la que se mueve la serie de tiempo a largo plazo. La estacionalidad representa los patrones repetitivos o cíclicos en la serie de tiempo que se repiten a intervalos regulares. Los residuos representan las fluctuaciones aleatorias o no sistemáticas que quedan una vez que se han eliminado la tendencia y la estacionalidad.</p>
-<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/descomposicion_-1.png" width="672" /></p>
-<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/descomposicionmultiplicativa_-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/descomposicion_-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/descomposicionmultiplicativa_-1.png" width="672" /></p>
 <p>La diferencia principal entre la descomposición aditiva y la multiplicativa radica en cómo se modelan las tendencias y las estacionalidades en una serie de tiempo.</p>
 <p>Descomposición Aditiva:</p>
 <p>En este enfoque, se supone que los componentes de tendencia y estacionalidad se suman para formar la serie de tiempo original.</p>
@@ -248,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>La tendencia y la estacionalidad no interactúan de manera compleja entre sí.
 Los cambios en la serie de tiempo son consistentes y no muestran fluctuaciones inusuales o extremas.</p>
 <p>En la grafica se observa un leve patron estacional</p>
-<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/comparacionEstados_-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/comparacionEstados_-1.png" width="672" /></p>
 
 </div>
             </section>

@@ -7,6 +7,7 @@ ARIMA significa "Autoregressive Integrated Moving Average", es un modelo estadí
 
 **Componentes del modelo ARIMA**
 
+
 AR (p) - Autorregresión: Un componente que usa la dependencia entre una observación y un número de observaciones retrasadas (lagged observations). El parámetro 'p' representa el número de términos autorregresivos. Por ejemplo, si p es 3, el valor predicho de la serie en un tiempo determinado sería una función de los valores en los tres periodos anteriores.
 
 I (d) - Diferenciación: Este componente se utiliza para hacer la serie temporal estacionaria, es decir, para remover efectos como tendencias o ciclicidad. 'd' representa el número de diferenciaciones necesarias para alcanzar la estacionariedad. Si una serie temporal tiene una tendencia lineal, una diferenciación (d=1) debería ser suficiente para eliminar esa tendencia.

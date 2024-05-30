@@ -20,5 +20,6 @@ nuestros-datos.
 aplicando-holt-winters.
 conclusiones-holt-winters.
 AjusteModeloLineal
-r-markdown
-including-plots
+modelo-lineal
+resultados-del-modelo
+modelo-estacional

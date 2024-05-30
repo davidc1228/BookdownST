@@ -23,7 +23,7 @@
 <meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
 
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="HoltWinters.html"/>
-
+<link rel="next" href="modelo-estacional.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -179,9 +179,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html"><i class="fa fa-check"></i><b>8</b> AjusteModeloLineal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#r-markdown"><i class="fa fa-check"></i><b>8.1</b> R Markdown</a></li>
-<li class="chapter" data-level="8.2" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#including-plots"><i class="fa fa-check"></i><b>8.2</b> Including Plots</a></li>
+<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#modelo-lineal"><i class="fa fa-check"></i><b>8.1</b> Modelo Lineal</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#resultados-del-modelo"><i class="fa fa-check"></i><b>8.1.1</b> Resultados del Modelo</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="modelo-estacional.html"><a href="modelo-estacional.html"><i class="fa fa-check"></i><b>9</b> Modelo estacional</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -204,25 +207,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="AjusteModeloLineal" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> AjusteModeloLineal<a href="AjusteModeloLineal.html#AjusteModeloLineal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="r-markdown" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> R Markdown<a href="AjusteModeloLineal.html#r-markdown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="AjusteModeloLineal.html#cb15-1" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-</div>
-<div id="including-plots" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Including Plots<a href="AjusteModeloLineal.html#including-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<pre><code>## # A tibble: 1,976 × 2
+##    FECHA      NumeroNacidos
+##    &lt;date&gt;             &lt;dbl&gt;
+##  1 2018-01-01            10
+##  2 2018-01-02            10
+##  3 2018-01-03             6
+##  4 2018-01-04             7
+##  5 2018-01-05            14
+##  6 2018-01-06            10
+##  7 2018-01-07            11
+##  8 2018-01-08             6
+##  9 2018-01-09             7
+## 10 2018-01-10            11
+## # ℹ 1,966 more rows</code></pre>
+<p>Notemos a continuación, la salida de la serie de tiempo</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="AjusteModeloLineal.html#cb16-1" tabindex="-1"></a>dfts2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(agrupnacidos_2<span class="sc">$</span>NumeroNacidos, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">12</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb16-2"><a href="AjusteModeloLineal.html#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="AjusteModeloLineal.html#cb16-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb16-4"><a href="AjusteModeloLineal.html#cb16-4" tabindex="-1"></a><span class="fu">plot</span>(dfts2, <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">main =</span> <span class="st">&quot;Serie Temporal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/Ajustemodelolineal2-1.png" width="672" /></p>
+<div id="modelo-lineal" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Modelo Lineal<a href="AjusteModeloLineal.html#modelo-lineal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Un modelo lineal es una técnica estadística utilizada para modelar la relación entre una variable dependiente y una o más variables independientes. En este análisis, ajustaremos un modelo lineal simple a la serie temporal dfts2.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="AjusteModeloLineal.html#cb17-1" tabindex="-1"></a><span class="co"># Ajustar un modelo lineal a la serie temporal</span></span>
+<span id="cb17-2"><a href="AjusteModeloLineal.html#cb17-2" tabindex="-1"></a>time_index <span class="ot">&lt;-</span> <span class="fu">time</span>(dfts2)</span>
+<span id="cb17-3"><a href="AjusteModeloLineal.html#cb17-3" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(dfts2)</span>
+<span id="cb17-4"><a href="AjusteModeloLineal.html#cb17-4" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(values <span class="sc">~</span> time_index)</span></code></pre></div>
+<div id="resultados-del-modelo" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Resultados del Modelo<a href="AjusteModeloLineal.html#resultados-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La salida del modelo lineal es la siguiente:</p>
+<pre><code>## 
+## Call:
+## lm(formula = values ~ time_index)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.2280 -2.1054 -0.2726  1.3684  8.3516 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 1012.0871   390.2094   2.594   0.0116 *
+## time_index    -0.4968     0.1931  -2.573   0.0122 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.837 on 70 degrees of freedom
+## Multiple R-squared:  0.08641,    Adjusted R-squared:  0.07336 
+## F-statistic: 6.621 on 1 and 70 DF,  p-value: 0.0122</code></pre>
+<p>Vamos a visualizar la serie temporal original y la línea de regresión ajustada.</p>
+<p>En el siguiente gráfico, la línea sólida azul representa los valores observados de la serie temporal y la línea de puntos rojos muestra el ajuste del modelo lineal a los datos.</p>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b9215d22bb7bed5498b1" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-b9215d22bb7bed5498b1">{"x":{"visdat":{"694c48327f2c":["function () ","plotlyVisDat"]},"cur_data":"694c48327f2c","attrs":{"694c48327f2c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Observados","line":{"color":"blue"},"inherit":true},"694c48327f2c.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Ajustados","line":{"color":"red","dash":"dot"},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visualización del Modelo Lineal Ajustado","xaxis":{"domain":[0,1],"automargin":true,"title":"Tiempo"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Valor Mensual"},"legend":{"orientation":"h","x":0.10000000000000001,"y":1.1000000000000001},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[2018,2018.0833333333333,2018.1666666666667,2018.25,2018.3333333333333,2018.4166666666667,2018.5,2018.5833333333333,2018.6666666666667,2018.75,2018.8333333333333,2018.9166666666667,2019,2019.0833333333333,2019.1666666666667,2019.25,2019.3333333333333,2019.4166666666667,2019.5,2019.5833333333333,2019.6666666666667,2019.75,2019.8333333333333,2019.9166666666667,2020,2020.0833333333333,2020.1666666666667,2020.25,2020.3333333333333,2020.4166666666667,2020.5,2020.5833333333333,2020.6666666666667,2020.75,2020.8333333333333,2020.9166666666667,2021,2021.0833333333335,2021.1666666666667,2021.25,2021.3333333333335,2021.4166666666667,2021.5,2021.5833333333335,2021.6666666666667,2021.75,2021.8333333333335,2021.9166666666667,2022,2022.0833333333335,2022.1666666666667,2022.25,2022.3333333333335,2022.4166666666667,2022.5,2022.5833333333335,2022.6666666666667,2022.75,2022.8333333333335,2022.9166666666667,2023,2023.0833333333335,2023.1666666666667,2023.25,2023.3333333333335,2023.4166666666667,2023.5,2023.5833333333335,2023.6666666666667,2023.75,2023.8333333333335,2023.9166666666667],"y":[10,10,6,7,14,10,11,6,7,11,10,10,7,7,10,10,12,8,14,13,8,10,10,5,11,8,6,9,8,4,8,3,10,7,6,7,5,4,6,5,5,13,6,4,7,16,11,8,10,9,7,8,14,7,7,7,12,7,5,7,11,6,4,7,7,3,3,6,8,5,4,12],"type":"scatter","mode":"lines","name":"Observados","line":{"color":"blue"},"marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2018,2018.0833333333333,2018.1666666666667,2018.25,2018.3333333333333,2018.4166666666667,2018.5,2018.5833333333333,2018.6666666666667,2018.75,2018.8333333333333,2018.9166666666667,2019,2019.0833333333333,2019.1666666666667,2019.25,2019.3333333333333,2019.4166666666667,2019.5,2019.5833333333333,2019.6666666666667,2019.75,2019.8333333333333,2019.9166666666667,2020,2020.0833333333333,2020.1666666666667,2020.25,2020.3333333333333,2020.4166666666667,2020.5,2020.5833333333333,2020.6666666666667,2020.75,2020.8333333333333,2020.9166666666667,2021,2021.0833333333335,2021.1666666666667,2021.25,2021.3333333333335,2021.4166666666667,2021.5,2021.5833333333335,2021.6666666666667,2021.75,2021.8333333333335,2021.9166666666667,2022,2022.0833333333335,2022.1666666666667,2022.25,2022.3333333333335,2022.4166666666667,2022.5,2022.5833333333335,2022.6666666666667,2022.75,2022.8333333333335,2022.9166666666667,2023,2023.0833333333335,2023.1666666666667,2023.25,2023.3333333333335,2023.4166666666667,2023.5,2023.5833333333335,2023.6666666666667,2023.75,2023.8333333333335,2023.9166666666667],"y":[9.5114155251117563,9.4700141488200096,9.4286127725256375,9.387211396231379,9.3458100199371188,9.3044086436427449,9.2630072673484865,9.2216058910542262,9.1802045147598541,9.1388031384655957,9.0974017621713354,9.0560003858769633,9.0145990095827031,8.9731976332884447,8.9317962569940725,8.8903948806998123,8.8489935044055521,8.80759212811118,8.7661907518169215,8.7247893755226613,8.6833879992282892,8.641986622934029,8.6005852466397705,8.5591838703453966,8.5177824940511382,8.476381117756878,8.4349797414625058,8.3935783651682456,8.3521769888739872,8.3107756125796151,8.2693742362853548,8.2279728599910946,8.1865714836967225,8.1451701074024641,8.1037687311082038,8.0623673548138317,8.0209659785195715,7.9795646022251994,7.93816322593094,7.8967618496366807,7.8553604733423086,7.8139590970480484,7.772557720753789,7.731156344459416,7.6897549681651576,7.6483535918708974,7.6069522155765252,7.5655508392822659,7.5241494629880066,7.4827480866936344,7.4413467103993742,7.3999453341051149,7.3585439578107419,7.3171425815164826,7.2757412052222232,7.2343398289278511,7.1929384526335918,7.1515370763393316,7.1101357000449594,7.0687343237507001,7.0273329474564399,6.9859315711620678,6.9445301948678084,6.9031288185735491,6.8617274422791761,6.8203260659849168,6.7789246896906583,6.7375233133962853,6.696121937102026,6.6547205608077658,6.6133191845133936,6.5719178082191343],"type":"scatter","mode":"lines","name":"Ajustados","line":{"color":"red","dash":"dot"},"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>En este análisis, hemos ajustado un modelo lineal a una serie temporal de datos mensuales de varios años. La visualización gráfica interactiva nos permite explorar mejor la relación entre los datos observados y la línea de regresión ajustada.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -230,8 +269,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="HoltWinters.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="HoltWinters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelo-estacional.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

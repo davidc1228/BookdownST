@@ -23,7 +23,7 @@
 <meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
 
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,9 +179,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html"><i class="fa fa-check"></i><b>8</b> AjusteModeloLineal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#r-markdown"><i class="fa fa-check"></i><b>8.1</b> R Markdown</a></li>
-<li class="chapter" data-level="8.2" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#including-plots"><i class="fa fa-check"></i><b>8.2</b> Including Plots</a></li>
+<li class="chapter" data-level="8.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#modelo-lineal"><i class="fa fa-check"></i><b>8.1</b> Modelo Lineal</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="AjusteModeloLineal.html"><a href="AjusteModeloLineal.html#resultados-del-modelo"><i class="fa fa-check"></i><b>8.1.1</b> Resultados del Modelo</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="modelo-estacional.html"><a href="modelo-estacional.html"><i class="fa fa-check"></i><b>9</b> Modelo estacional</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -211,9 +214,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>Estacionalidad multiplicativa</strong>: Aquí, la magnitud de las fluctuaciones estacionales varía en función del nivel de la serie temporal.</p></li>
 </ol>
 <p>La identificación de la estacionalidad en un conjunto de datos es importante porque puede ayudarte a entender mejor las tendencias y los patrones subyacentes en tus datos. Además, puede ser útil para predecir futuros valores y tomar decisiones informadas, especialmente en industrias donde los patrones estacionales tienen un impacto significativo, como el comercio minorista, el turismo o la agricultura.</p>
-<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/docs/_main_files/figure-html/estacionalidad3-1.png" width="672" /></p>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-0a181c2a386b2f4e131d" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-0a181c2a386b2f4e131d">{"x":{"visdat":{"37cc6ed053c1":["function () ","plotlyVisDat"]},"cur_data":"37cc6ed053c1","attrs":{"37cc6ed053c1":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Estacionalidad de mes por año (2021-2024)","xaxis":{"domain":[0,1],"automargin":true,"title":"Mes","type":"category","categoryorder":"array","categoryarray":["01","02","05","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Número de casos"},"colorway":["blue","green","red","orange"],"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["10","11","12"],"y":[270,246,238],"type":"bar","name":"2021","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["01","02","05"],"y":[231,1,5],"type":"bar","name":"2022","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><img src="_main_files/figure-html/estacionalidad3-1.png" width="672" /></p>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7b90d2db3a398811d7a3" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-7b90d2db3a398811d7a3">{"x":{"visdat":{"694c267829c2":["function () ","plotlyVisDat"]},"cur_data":"694c267829c2","attrs":{"694c267829c2":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Estacionalidad de mes por año (2021-2024)","xaxis":{"domain":[0,1],"automargin":true,"title":"Mes","type":"category","categoryorder":"array","categoryarray":["01","02","05","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Número de casos"},"colorway":["blue","green","red","orange"],"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["10","11","12"],"y":[270,246,238],"type":"bar","name":"2021","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["01","02","05"],"y":[231,1,5],"type":"bar","name":"2022","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <div id="porcentaje-de-estacionalidad-por-mes-y-año-2021-2024" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Porcentaje de Estacionalidad por Mes y Año (2021-2024)<a href="Estacionalidad.html#porcentaje-de-estacionalidad-por-mes-y-año-2021-2024" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La tabla a continuación muestra el porcentaje de estacionalidad por mes y año para el período comprendido entre 2021 y 2024. Estos datos representan la distribución relativa de casos a lo largo de los meses en cada año y proporcionan información sobre posibles patrones estacionales en la ocurrencia de eventos.</p>

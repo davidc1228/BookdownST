@@ -1,26 +1,129 @@
 # AjusteModeloLineal {#AjusteModeloLineal}
 
 
-```{r AjusteModelo1, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r AjusteModelo1, echo=FALSE}
+#Cargar los datos y prepararlos
+
+library(dplyr, warn.conflicts = FALSE)
+
+DatosNacidos <- read.csv(file = "data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv")
+
+DatosNacidos$FECHA <- substr(DatosNacidos$FECHA,1,10)
+DatosNacidos$FECHA <- as.Date(DatosNacidos$FECHA, format = "%m/%d/%Y")
+
+agrupnacidos <- DatosNacidos %>% 
+                   group_by(FECHA, MULTIPLICIDAD.EMBARAZO) %>% 
+                   summarize(NumeroPartos = n(), .groups = 'drop')
+
+agrupnacidos$NumeroNacidos <- 
+  ifelse(agrupnacidos$MULTIPLICIDAD.EMBARAZO == "DOBLE",agrupnacidos$NumeroPartos*2,agrupnacidos$NumeroPartos)
+
+agrupnacidos_2 <- agrupnacidos %>% 
+                   group_by(FECHA) %>% 
+                   summarize(NumeroNacidos=sum(NumeroNacidos), .groups = 'drop')
+
+
+print(agrupnacidos_2)
 ```
 
-## R Markdown
+Notemos a continuación, la salida de la serie de tiempo
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r Ajustemodelolineal2}
+dfts2 <- ts(agrupnacidos_2$NumeroNacidos, start = c(2018, 1), end = c(2023, 12), frequency = 12)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+par(mfrow=c(1,1))
+plot(dfts2, type = 'l', main = "Serie Temporal", ylab = "Valores", xlab = "Tiempo")
 ```
 
-## Including Plots
+## Modelo Lineal
 
-You can also embed plots, for example:
+Un modelo lineal es una técnica estadística utilizada para modelar la relación entre una variable dependiente y una o más variables independientes. En este análisis, ajustaremos un modelo lineal simple a la serie temporal dfts2.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+
+```{r ajuste3, echo=TRUE}
+
+# Ajustar un modelo lineal a la serie temporal
+time_index <- time(dfts2)
+values <- as.vector(dfts2)
+linear_model <- lm(values ~ time_index)
+
+```
+### Resultados del Modelo
+
+La salida del modelo lineal es la siguiente:
+
+```{r ajuste 4, echo=FALSE}
+
+summary(linear_model)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+Vamos a visualizar la serie temporal original y la línea de regresión ajustada.
+
+
+
+```{r ajuste5, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Crear un dataframe para plotly
+df_plot <- data.frame(
+  Time = time_index,
+  Values = values,
+  Fitted = fitted(linear_model)
+)
+
+
+```
+
+En el siguiente gráfico, la línea sólida azul representa los valores observados de la serie temporal y la línea de puntos rojos muestra el ajuste del modelo lineal a los datos.
+
+
+
+
+
+```{r ajuste6, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Cargar la biblioteca plotly
+library(plotly)
+
+# Crear el gráfico interactivo
+plot_ly(df_plot) %>%
+  add_lines(x = ~Time, y = ~Values, name = "Observados", line = list(color = "blue")) %>%
+  add_lines(x = ~Time, y = ~Fitted, name = "Ajustados", line = list(color = "red", dash = "dot")) %>%
+  layout(title = "Visualización del Modelo Lineal Ajustado",
+         xaxis = list(title = "Tiempo"),
+         yaxis = list(title = "Valor Mensual"),
+         legend = list(orientation = "h", x = 0.1, y = 1.1))
+
+
+```
+
+
+
+
+
+
+En este análisis, hemos ajustado un modelo lineal a una serie temporal de datos mensuales de varios años. La visualización gráfica interactiva nos permite explorar mejor la relación entre los datos observados y la línea de regresión ajustada.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
