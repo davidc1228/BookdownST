@@ -23,3 +23,4 @@ AjusteModeloLineal
 modelo-lineal
 resultados-del-modelo
 modelo-estacional
+modeloprophet

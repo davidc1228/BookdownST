@@ -1,0 +1,114 @@
+# ModeloProphet
+
+<div style="text-align:justify;">
+
+**Modelo Prophet**
+
+Prophet es un modelo estadístico que fue diseñado para manejar los datos de series temporales que encontramos en aplicaciones de negocio como pronósticos de ventas, tráfico web, demanda de recursos, etc. Una "serie temporal" es simplemente un conjunto de observaciones tomadas en intervalos de tiempo regulares (como diariamente, semanalmente, mensualmente).
+
+**Ventajas**
+
+- Automáticamente detecta cambios en las tendencias, y puede ajustarse a ellos. Esto es especialmente útil en datos que tienen efectos de temporada (como ventas que aumentan durante las fiestas) o cuando las tendencias cambian abruptamente (como un producto que de repente se vuelve popular).
+
+- Descompone las series temporales en tendencia, estacionalidad anual, estacionalidad semanal, y efectos de días festivos. Esto no solo ayuda a hacer predicciones, sino también a entender mejor los datos.
+
+
+```{r datos1, echo=TRUE, warning=FALSE, message=FALSE}
+#Cargar los datos y prepararlos
+
+library(dplyr)
+
+DatosNacidos <- read.csv(file = "data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv")
+
+DatosNacidos$FECHA <- substr(DatosNacidos$FECHA,1,10)
+DatosNacidos$FECHA <- as.Date(DatosNacidos$FECHA, format = "%m/%d/%Y")
+
+agrupnacidos <- DatosNacidos %>% 
+                   group_by(FECHA, MULTIPLICIDAD.EMBARAZO) %>% 
+                   summarize(NumeroPartos = n(), .groups = 'drop')
+
+agrupnacidos$NumeroNacidos <- 
+  ifelse(agrupnacidos$MULTIPLICIDAD.EMBARAZO == "DOBLE",agrupnacidos$NumeroPartos*2,agrupnacidos$NumeroPartos)
+
+agrupnacidos_2 <- agrupnacidos %>% 
+                   group_by(FECHA) %>% 
+                   summarize(NumeroNacidos=sum(NumeroNacidos), .groups = 'drop')
+
+
+dfdesc <- agrupnacidos_2
+```
+
+Visualizamos los datos
+
+```{r datos2}
+# Crear la serie de tiempo usando la función 'ts'
+dfts2 <- ts(dfdesc$NumeroNacidos, start = c(2018, 01), end = c(2023, 12), frequency = 12)  
+```
+
+
+```{r datos3}
+plot(dfts2, type = 'l', main = "Serie Temporal", ylab = "Valores", xlab = "Tiempo")
+print(dfts2)
+```
+Se instala la libreria y paquetes necesarios para la funcion Prophet
+
+```{r datos4, echo=TRUE, warning=FALSE, message=FALSE}
+options(repos = c(CRAN = "https://cran.rstudio.com"))
+install.packages("prophet")
+library(prophet)
+```
+Se preparan los datos para ser usados con el modelo Prophet, asegurándose de que las columnas tienen los nombres correctos
+
+ds: Prophet requiere una columna llamada ds que contenga las fechas (timestamps) de los datos de la serie temporal. Aquí, se renombra la columna FECHA a ds.
+
+y: Prophet también requiere una columna que contenga los valores que queremos predecir. En este caso, se está renombrando NumeroNacidos a y.
+
+```{r 1}
+dfdesc_filtrado <- dfdesc[dfdesc$FECHA >= as.Date("2018-01-01"), ]
+prophet_data <- dfdesc_filtrado %>%
+                rename(ds = FECHA, y = NumeroNacidos)
+
+```
+
+Se usa el codigo Prophet para ajustar el modelo.
+
+```{r 2,  warning=FALSE, message=FALSE}
+m <- prophet(prophet_data)
+```
+make_future_dataframe es una función de Prophet que genera un DataFrame conteniendo las fechas futuras para las cuales deseas realizar predicciones. Este DataFrame se utilizará luego para hacer las predicciones con el modelo ajustado.
+
+m: Es el modelo Prophet ajustado anteriormente con los datos 
+
+periods: Este parámetro especifica cuántos períodos futuros se van a predecir. En este caso, periods = 12 indica que quieres generar predicciones para 12 períodos futuros.
+
+freq: Define la frecuencia de los períodos. Al establecer freq = "month", estamos especificando que cada período es un mes, por lo tanto, este es un un DataFrame que se extiende 12 meses hacia el futuro desde la última fecha en tus datos originales.
+
+```{r 3,  warning=FALSE, message=FALSE}
+future <- make_future_dataframe(m, periods = 12, freq = "month")
+forecast <- predict(m, future)
+
+```
+
+```{r 4}
+prophet_plot_components(m, forecast)
+```
+En este grafico se muestra la tendencia, la estacionalidad semanal, y la estacionalidad anual.
+
+La Tendencia (Trend): Observamos que la tendencia comienza en un valor alto en 2018, tiene un pico alrededor de 2020, y luego muestra una disminución constante hacia 2024. Esta curva podría indicar cómo un fenómeno específico ha estado creciendo y decreciendo con el tiempo sin tener una estacionalidad
+
+Estacionalidad Semanal (Weekly): El gráfico muestra variaciones a lo largo de los días de la semana. Se puede ver que los valores bajan un poco al principio de la semana, aumentan gradualmente hasta el jueves, bajan ligeramente el viernes, y luego suben significativamente el sábado. Esto sugiere que el fenómeno estudiado podría tener un comportamiento específico en diferentes días de la semana, siendo más alto hacia el final de la semana.
+
+Estacionalidad Anual (Yearly): El gráfico anual muestra fluctuaciones a lo largo del año con puntos bajos y altos. Comienza con valores más bajos en enero, aumenta hacia mediados de año, y luego tiene una disminución antes de subir nuevamente hacia finales del año. Este patrón podría reflejar una estacionalidad típica relacionada con factores como las vacaciones, dias festivos específicos o celebraciones especiales.
+
+```{r 5, warning=FALSE, message=FALSE}
+library(plotly)
+p <- plot(m, forecast)
+ggplotly(p)
+
+```
+
+**Conclusion:**
+
+Existe una tendencia decreciente y los pronosticos lo reflejan, esto puede reflejar varios factores sociales o económicos que influyen en las tasas de natalidad, como políticas gubernamentales, cambios económicos etc. La disminución post-2020 podría estar influenciada por factores como inestabilidad económica, cambios en políticas de bienestar o salud, o simplemente cambios en la preferencia de las familias respecto al número de hijos.
+
+
