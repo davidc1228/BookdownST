@@ -1,0 +1,110 @@
+# ModeloRedesNeuronales
+
+<div style="text-align:justify;">
+
+**Modelo Redes Neuronales**
+
+Las redes neuronales son un modelo de aprendizaje automático inspirado en el funcionamiento del cerebro humano. Están compuestas por capas de neuronas artificiales que se conectan entre sí y pueden aprender patrones complejos a partir de datos. En el contexto de las series temporales, las redes neuronales pueden ser utilizadas para predecir valores futuros basándose en patrones históricos.
+
+En este documento, realizaremos un análisis de nuestra serie temporal utilizando un modelo de redes neuronales. Primero, prepararemos los datos y luego entrenaremos el modelo. Finalmente, mostraremos algunas predicciones del modelo entrenado.
+
+
+
+```{r datosrn1, echo=TRUE, warning=FALSE, message=FALSE}
+#Cargar los datos y prepararlos
+
+library(dplyr)
+
+DatosNacidos <- read.csv(file = "data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv")
+
+DatosNacidos$FECHA <- substr(DatosNacidos$FECHA,1,10)
+DatosNacidos$FECHA <- as.Date(DatosNacidos$FECHA, format = "%m/%d/%Y")
+
+agrupnacidos <- DatosNacidos %>% 
+                   group_by(FECHA, MULTIPLICIDAD.EMBARAZO) %>% 
+                   summarize(NumeroPartos = n(), .groups = 'drop')
+
+agrupnacidos$NumeroNacidos <- 
+  ifelse(agrupnacidos$MULTIPLICIDAD.EMBARAZO == "DOBLE",agrupnacidos$NumeroPartos*2,agrupnacidos$NumeroPartos)
+
+agrupnacidos_2 <- agrupnacidos %>% 
+                   group_by(FECHA) %>% 
+                   summarize(NumeroNacidos=sum(NumeroNacidos), .groups = 'drop')
+
+
+dfdesc <- agrupnacidos_2
+```
+
+Visualizamos los datos
+
+```{r datosrn2}
+# Crear la serie de tiempo usando la función 'ts'
+dfts2 <- ts(dfdesc$NumeroNacidos, start = c(2018, 01), end = c(2023, 12), frequency = 12)
+
+
+plot(dfts2, main = "Serie Temporal", ylab = "Valores", xlab = "Tiempo")
+
+# Cálculo del promedio de la serie
+avg_value <- mean(dfts2)
+
+# Añadir una línea de promedio
+abline(h = avg_value, col = "red", lwd = 2, lty = 2)  # Línea de promedio en rojo y discontinua
+
+```
+
+
+## Modelo de Redes Neuronales
+
+En esta sección, entrenaremos un modelo de redes neuronales para predecir la serie temporal.
+
+
+```{r datosrn3, message=FALSE, warning=FALSE}
+
+# Carga de librerías
+library(tidyverse)
+library(tseries)
+library(forecast)
+library(nnet)
+
+
+# Entrenamiento del modelo
+nn_model <- nnetar(dfts2, p = 3, P = 1, size = 5)
+
+# Predicciones
+n_ahead <- 10  # Número de pasos a predecir
+forecasts <- forecast(nn_model, h = n_ahead)
+
+
+
+```
+
+
+## Resultados
+
+A continuación, mostramos algunas predicciones realizadas por el modelo de redes neuronales.
+
+
+```{r datosrn4}
+
+# Visualización de los resultados
+plot(forecasts, main = "Predicciones de la Serie Temporal", ylab = "Valores", xlab = "Tiempo")
+
+# Ajuste de una regresión lineal a los datos reales
+time_real <- time(dfts2)
+fit <- lm(as.numeric(dfts2) ~ time_real)
+
+# Añadir la línea de tendencia a la gráfica
+abline(fit, col = "blue", lwd = 2)
+
+
+# Mostrar las predicciones
+forecasts$mean
+
+```
+
+
+
+De este modo se puede evidenciar que, a través de la aplicación de redes neuronales se refleja una caida en la tendencia de nacimientos para los periodos pendientes a desarrollarse entre las fechas 2024 y 2025; por lo que es posible inferir que la tasa de natalidad es proporcionalmente decreciente respecto a la evolucion de los periodos futuros. 
+
+
+
