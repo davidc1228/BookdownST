@@ -1,5 +1,4 @@
 tab:HeadTable
-tab:estacionalidad5
 proyecto
 descripción-de-los-datos.
 vista-rapida-de-datos.
@@ -24,3 +23,6 @@ modelo-lineal
 resultados-del-modelo
 modelo-estacional
 modeloprophet
+modeloredesneuronales
+modelo-de-redes-neuronales
+resultados
