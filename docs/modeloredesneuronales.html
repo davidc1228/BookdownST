@@ -52,6 +52,14 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -210,77 +218,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Modelo Redes Neuronales</strong></p>
 <p>Las redes neuronales son un modelo de aprendizaje automático inspirado en el funcionamiento del cerebro humano. Están compuestas por capas de neuronas artificiales que se conectan entre sí y pueden aprender patrones complejos a partir de datos. En el contexto de las series temporales, las redes neuronales pueden ser utilizadas para predecir valores futuros basándose en patrones históricos.</p>
 <p>En este documento, realizaremos un análisis de nuestra serie temporal utilizando un modelo de redes neuronales. Primero, prepararemos los datos y luego entrenaremos el modelo. Finalmente, mostraremos algunas predicciones del modelo entrenado.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modeloredesneuronales.html#cb1-1" tabindex="-1"></a><span class="co">#Cargar los datos y prepararlos</span></span>
-<span id="cb1-2"><a href="modeloredesneuronales.html#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="modeloredesneuronales.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="modeloredesneuronales.html#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="modeloredesneuronales.html#cb1-5" tabindex="-1"></a>DatosNacidos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv&quot;</span>)</span>
-<span id="cb1-6"><a href="modeloredesneuronales.html#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="modeloredesneuronales.html#cb1-7" tabindex="-1"></a>DatosNacidos<span class="sc">$</span>FECHA <span class="ot">&lt;-</span> <span class="fu">substr</span>(DatosNacidos<span class="sc">$</span>FECHA,<span class="dv">1</span>,<span class="dv">10</span>)</span>
-<span id="cb1-8"><a href="modeloredesneuronales.html#cb1-8" tabindex="-1"></a>DatosNacidos<span class="sc">$</span>FECHA <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(DatosNacidos<span class="sc">$</span>FECHA, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>)</span>
-<span id="cb1-9"><a href="modeloredesneuronales.html#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="modeloredesneuronales.html#cb1-10" tabindex="-1"></a>agrupnacidos <span class="ot">&lt;-</span> DatosNacidos <span class="sc">%&gt;%</span> </span>
-<span id="cb1-11"><a href="modeloredesneuronales.html#cb1-11" tabindex="-1"></a>                   <span class="fu">group_by</span>(FECHA, MULTIPLICIDAD.EMBARAZO) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-12"><a href="modeloredesneuronales.html#cb1-12" tabindex="-1"></a>                   <span class="fu">summarize</span>(<span class="at">NumeroPartos =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
-<span id="cb1-13"><a href="modeloredesneuronales.html#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="modeloredesneuronales.html#cb1-14" tabindex="-1"></a>agrupnacidos<span class="sc">$</span>NumeroNacidos <span class="ot">&lt;-</span> </span>
-<span id="cb1-15"><a href="modeloredesneuronales.html#cb1-15" tabindex="-1"></a>  <span class="fu">ifelse</span>(agrupnacidos<span class="sc">$</span>MULTIPLICIDAD.EMBARAZO <span class="sc">==</span> <span class="st">&quot;DOBLE&quot;</span>,agrupnacidos<span class="sc">$</span>NumeroPartos<span class="sc">*</span><span class="dv">2</span>,agrupnacidos<span class="sc">$</span>NumeroPartos)</span>
-<span id="cb1-16"><a href="modeloredesneuronales.html#cb1-16" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="modeloredesneuronales.html#cb1-17" tabindex="-1"></a>agrupnacidos_2 <span class="ot">&lt;-</span> agrupnacidos <span class="sc">%&gt;%</span> </span>
-<span id="cb1-18"><a href="modeloredesneuronales.html#cb1-18" tabindex="-1"></a>                   <span class="fu">group_by</span>(FECHA) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-19"><a href="modeloredesneuronales.html#cb1-19" tabindex="-1"></a>                   <span class="fu">summarize</span>(<span class="at">NumeroNacidos=</span><span class="fu">sum</span>(NumeroNacidos), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
-<span id="cb1-20"><a href="modeloredesneuronales.html#cb1-20" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="modeloredesneuronales.html#cb1-21" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="modeloredesneuronales.html#cb1-22" tabindex="-1"></a>dfdesc <span class="ot">&lt;-</span> agrupnacidos_2</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="modeloredesneuronales.html#cb55-1" tabindex="-1"></a><span class="co">#Cargar los datos y prepararlos</span></span>
+<span id="cb55-2"><a href="modeloredesneuronales.html#cb55-2" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="modeloredesneuronales.html#cb55-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb55-4"><a href="modeloredesneuronales.html#cb55-4" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="modeloredesneuronales.html#cb55-5" tabindex="-1"></a>DatosNacidos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;data/Nacidos_Vivos_en_Hospital_Manuel_Uribe_Angel_20240418.csv&quot;</span>)</span>
+<span id="cb55-6"><a href="modeloredesneuronales.html#cb55-6" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="modeloredesneuronales.html#cb55-7" tabindex="-1"></a>DatosNacidos<span class="sc">$</span>FECHA <span class="ot">&lt;-</span> <span class="fu">substr</span>(DatosNacidos<span class="sc">$</span>FECHA,<span class="dv">1</span>,<span class="dv">10</span>)</span>
+<span id="cb55-8"><a href="modeloredesneuronales.html#cb55-8" tabindex="-1"></a>DatosNacidos<span class="sc">$</span>FECHA <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(DatosNacidos<span class="sc">$</span>FECHA, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>)</span>
+<span id="cb55-9"><a href="modeloredesneuronales.html#cb55-9" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="modeloredesneuronales.html#cb55-10" tabindex="-1"></a>agrupnacidos <span class="ot">&lt;-</span> DatosNacidos <span class="sc">%&gt;%</span> </span>
+<span id="cb55-11"><a href="modeloredesneuronales.html#cb55-11" tabindex="-1"></a>                   <span class="fu">group_by</span>(FECHA, MULTIPLICIDAD.EMBARAZO) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-12"><a href="modeloredesneuronales.html#cb55-12" tabindex="-1"></a>                   <span class="fu">summarize</span>(<span class="at">NumeroPartos =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb55-13"><a href="modeloredesneuronales.html#cb55-13" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="modeloredesneuronales.html#cb55-14" tabindex="-1"></a>agrupnacidos<span class="sc">$</span>NumeroNacidos <span class="ot">&lt;-</span> </span>
+<span id="cb55-15"><a href="modeloredesneuronales.html#cb55-15" tabindex="-1"></a>  <span class="fu">ifelse</span>(agrupnacidos<span class="sc">$</span>MULTIPLICIDAD.EMBARAZO <span class="sc">==</span> <span class="st">&quot;DOBLE&quot;</span>,agrupnacidos<span class="sc">$</span>NumeroPartos<span class="sc">*</span><span class="dv">2</span>,agrupnacidos<span class="sc">$</span>NumeroPartos)</span>
+<span id="cb55-16"><a href="modeloredesneuronales.html#cb55-16" tabindex="-1"></a></span>
+<span id="cb55-17"><a href="modeloredesneuronales.html#cb55-17" tabindex="-1"></a>agrupnacidos_2 <span class="ot">&lt;-</span> agrupnacidos <span class="sc">%&gt;%</span> </span>
+<span id="cb55-18"><a href="modeloredesneuronales.html#cb55-18" tabindex="-1"></a>                   <span class="fu">group_by</span>(FECHA) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-19"><a href="modeloredesneuronales.html#cb55-19" tabindex="-1"></a>                   <span class="fu">summarize</span>(<span class="at">NumeroNacidos=</span><span class="fu">sum</span>(NumeroNacidos), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb55-20"><a href="modeloredesneuronales.html#cb55-20" tabindex="-1"></a></span>
+<span id="cb55-21"><a href="modeloredesneuronales.html#cb55-21" tabindex="-1"></a></span>
+<span id="cb55-22"><a href="modeloredesneuronales.html#cb55-22" tabindex="-1"></a>dfdesc <span class="ot">&lt;-</span> agrupnacidos_2</span></code></pre></div>
 <p>Visualizamos los datos</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="modeloredesneuronales.html#cb2-1" tabindex="-1"></a><span class="co"># Crear la serie de tiempo usando la función &#39;ts&#39;</span></span>
-<span id="cb2-2"><a href="modeloredesneuronales.html#cb2-2" tabindex="-1"></a>dfts2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(dfdesc<span class="sc">$</span>NumeroNacidos, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">01</span>), <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">12</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
-<span id="cb2-3"><a href="modeloredesneuronales.html#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="modeloredesneuronales.html#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="modeloredesneuronales.html#cb2-5" tabindex="-1"></a><span class="fu">plot</span>(dfts2, <span class="at">main =</span> <span class="st">&quot;Serie Temporal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span>
-<span id="cb2-6"><a href="modeloredesneuronales.html#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="modeloredesneuronales.html#cb2-7" tabindex="-1"></a><span class="co"># Cálculo del promedio de la serie</span></span>
-<span id="cb2-8"><a href="modeloredesneuronales.html#cb2-8" tabindex="-1"></a>avg_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(dfts2)</span>
-<span id="cb2-9"><a href="modeloredesneuronales.html#cb2-9" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="modeloredesneuronales.html#cb2-10" tabindex="-1"></a><span class="co"># Añadir una línea de promedio</span></span>
-<span id="cb2-11"><a href="modeloredesneuronales.html#cb2-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> avg_value, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># Línea de promedio en rojo y discontinua</span></span></code></pre></div>
-<p><img src="_main_files/figure-html/datosrn2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="modeloredesneuronales.html#cb56-1" tabindex="-1"></a><span class="co"># Crear la serie de tiempo usando la función &#39;ts&#39;</span></span>
+<span id="cb56-2"><a href="modeloredesneuronales.html#cb56-2" tabindex="-1"></a>dfts2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(dfdesc<span class="sc">$</span>NumeroNacidos, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">01</span>), <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">12</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb56-3"><a href="modeloredesneuronales.html#cb56-3" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="modeloredesneuronales.html#cb56-4" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="modeloredesneuronales.html#cb56-5" tabindex="-1"></a><span class="fu">plot</span>(dfts2, <span class="at">main =</span> <span class="st">&quot;Serie Temporal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span>
+<span id="cb56-6"><a href="modeloredesneuronales.html#cb56-6" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="modeloredesneuronales.html#cb56-7" tabindex="-1"></a><span class="co"># Cálculo del promedio de la serie</span></span>
+<span id="cb56-8"><a href="modeloredesneuronales.html#cb56-8" tabindex="-1"></a>avg_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(dfts2)</span>
+<span id="cb56-9"><a href="modeloredesneuronales.html#cb56-9" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="modeloredesneuronales.html#cb56-10" tabindex="-1"></a><span class="co"># Añadir una línea de promedio</span></span>
+<span id="cb56-11"><a href="modeloredesneuronales.html#cb56-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> avg_value, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># Línea de promedio en rojo y discontinua</span></span></code></pre></div>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/_main_files/figure-html/datosrn2-1.png" width="672" /></p>
 <div id="modelo-de-redes-neuronales" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Modelo de Redes Neuronales<a href="modeloredesneuronales.html#modelo-de-redes-neuronales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En esta sección, entrenaremos un modelo de redes neuronales para predecir la serie temporal.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="modeloredesneuronales.html#cb3-1" tabindex="-1"></a><span class="co"># Carga de librerías</span></span>
-<span id="cb3-2"><a href="modeloredesneuronales.html#cb3-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-3"><a href="modeloredesneuronales.html#cb3-3" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
-<span id="cb3-4"><a href="modeloredesneuronales.html#cb3-4" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb3-5"><a href="modeloredesneuronales.html#cb3-5" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
-<span id="cb3-6"><a href="modeloredesneuronales.html#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="modeloredesneuronales.html#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="modeloredesneuronales.html#cb3-8" tabindex="-1"></a><span class="co"># Entrenamiento del modelo</span></span>
-<span id="cb3-9"><a href="modeloredesneuronales.html#cb3-9" tabindex="-1"></a>nn_model <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(dfts2, <span class="at">p =</span> <span class="dv">3</span>, <span class="at">P =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
-<span id="cb3-10"><a href="modeloredesneuronales.html#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="modeloredesneuronales.html#cb3-11" tabindex="-1"></a><span class="co"># Predicciones</span></span>
-<span id="cb3-12"><a href="modeloredesneuronales.html#cb3-12" tabindex="-1"></a>n_ahead <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de pasos a predecir</span></span>
-<span id="cb3-13"><a href="modeloredesneuronales.html#cb3-13" tabindex="-1"></a>forecasts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(nn_model, <span class="at">h =</span> n_ahead)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="modeloredesneuronales.html#cb57-1" tabindex="-1"></a><span class="co"># Carga de librerías</span></span>
+<span id="cb57-2"><a href="modeloredesneuronales.html#cb57-2" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb57-3"><a href="modeloredesneuronales.html#cb57-3" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb57-4"><a href="modeloredesneuronales.html#cb57-4" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="modeloredesneuronales.html#cb57-5" tabindex="-1"></a><span class="co"># Entrenamiento del modelo</span></span>
+<span id="cb57-6"><a href="modeloredesneuronales.html#cb57-6" tabindex="-1"></a>nn_model <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(dfts2, <span class="at">p =</span> <span class="dv">3</span>, <span class="at">P =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
+<span id="cb57-7"><a href="modeloredesneuronales.html#cb57-7" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="modeloredesneuronales.html#cb57-8" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="modeloredesneuronales.html#cb57-9" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="modeloredesneuronales.html#cb57-10" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb57-11"><a href="modeloredesneuronales.html#cb57-11" tabindex="-1"></a>n_ahead <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de pasos a predecir</span></span>
+<span id="cb57-12"><a href="modeloredesneuronales.html#cb57-12" tabindex="-1"></a>forecasts <span class="ot">&lt;-</span> forecast<span class="sc">::</span><span class="fu">forecast</span>(nn_model, <span class="at">h =</span> n_ahead)</span></code></pre></div>
 </div>
 <div id="resultados" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> Resultados<a href="modeloredesneuronales.html#resultados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A continuación, mostramos algunas predicciones realizadas por el modelo de redes neuronales.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="modeloredesneuronales.html#cb4-1" tabindex="-1"></a><span class="co"># Visualización de los resultados</span></span>
-<span id="cb4-2"><a href="modeloredesneuronales.html#cb4-2" tabindex="-1"></a><span class="fu">plot</span>(forecasts, <span class="at">main =</span> <span class="st">&quot;Predicciones de la Serie Temporal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span>
-<span id="cb4-3"><a href="modeloredesneuronales.html#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="modeloredesneuronales.html#cb4-4" tabindex="-1"></a><span class="co"># Ajuste de una regresión lineal a los datos reales</span></span>
-<span id="cb4-5"><a href="modeloredesneuronales.html#cb4-5" tabindex="-1"></a>time_real <span class="ot">&lt;-</span> <span class="fu">time</span>(dfts2)</span>
-<span id="cb4-6"><a href="modeloredesneuronales.html#cb4-6" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.numeric</span>(dfts2) <span class="sc">~</span> time_real)</span>
-<span id="cb4-7"><a href="modeloredesneuronales.html#cb4-7" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="modeloredesneuronales.html#cb4-8" tabindex="-1"></a><span class="co"># Añadir la línea de tendencia a la gráfica</span></span>
-<span id="cb4-9"><a href="modeloredesneuronales.html#cb4-9" tabindex="-1"></a><span class="fu">abline</span>(fit, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/datosrn4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="modeloredesneuronales.html#cb5-1" tabindex="-1"></a><span class="co"># Mostrar las predicciones</span></span>
-<span id="cb5-2"><a href="modeloredesneuronales.html#cb5-2" tabindex="-1"></a>forecasts<span class="sc">$</span>mean</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="modeloredesneuronales.html#cb58-1" tabindex="-1"></a><span class="co"># Visualización de los resultados</span></span>
+<span id="cb58-2"><a href="modeloredesneuronales.html#cb58-2" tabindex="-1"></a><span class="fu">plot</span>(forecasts, <span class="at">main =</span> <span class="st">&quot;Predicciones de la Serie Temporal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span>
+<span id="cb58-3"><a href="modeloredesneuronales.html#cb58-3" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="modeloredesneuronales.html#cb58-4" tabindex="-1"></a><span class="co"># Ajuste de una regresión lineal a los datos reales</span></span>
+<span id="cb58-5"><a href="modeloredesneuronales.html#cb58-5" tabindex="-1"></a>time_real <span class="ot">&lt;-</span> <span class="fu">time</span>(dfts2)</span>
+<span id="cb58-6"><a href="modeloredesneuronales.html#cb58-6" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.numeric</span>(dfts2) <span class="sc">~</span> time_real)</span>
+<span id="cb58-7"><a href="modeloredesneuronales.html#cb58-7" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="modeloredesneuronales.html#cb58-8" tabindex="-1"></a><span class="co"># Añadir la línea de tendencia a la gráfica</span></span>
+<span id="cb58-9"><a href="modeloredesneuronales.html#cb58-9" tabindex="-1"></a><span class="fu">abline</span>(fit, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/_main_files/figure-html/datosrn4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modeloredesneuronales.html#cb59-1" tabindex="-1"></a><span class="co"># Mostrar las predicciones</span></span>
+<span id="cb59-2"><a href="modeloredesneuronales.html#cb59-2" tabindex="-1"></a>forecasts<span class="sc">$</span>mean</span></code></pre></div>
 <pre><code>##            Jan       Feb       Mar       Apr       May       Jun       Jul
-## 2024  7.233652  4.896621  8.136797 12.244501  7.187805  5.246503  8.650825
+## 2024  5.960442  6.484009  7.716908  8.162575  7.707063 12.344180 12.256556
 ##            Aug       Sep       Oct
-## 2024 12.489257  7.151654  5.152388</code></pre>
+## 2024  8.001368 12.072772 10.466629</code></pre>
 <p>De este modo se puede evidenciar que, a través de la aplicación de redes neuronales se refleja una caida en la tendencia de nacimientos para los periodos pendientes a desarrollarse entre las fechas 2024 y 2025; por lo que es posible inferir que la tasa de natalidad es proporcionalmente decreciente respecto a la evolucion de los periodos futuros.</p>
 
 </div>
@@ -345,6 +352,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

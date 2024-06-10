@@ -23,7 +23,7 @@
 <meta name="author" content="David Cardenas, Aldair Blanco, Gustavo Ruiz" />
 
 
-<meta name="date" content="2024-06-09" />
+<meta name="date" content="2024-06-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -186,6 +186,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="modelo-estacional.html"><a href="modelo-estacional.html"><i class="fa fa-check"></i><b>9</b> Modelo estacional</a></li>
 <li class="chapter" data-level="10" data-path="modeloprophet.html"><a href="modeloprophet.html"><i class="fa fa-check"></i><b>10</b> ModeloProphet</a></li>
+<li class="chapter" data-level="11" data-path="modeloredesneuronales.html"><a href="modeloredesneuronales.html"><i class="fa fa-check"></i><b>11</b> ModeloRedesNeuronales</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="modeloredesneuronales.html"><a href="modeloredesneuronales.html#modelo-de-redes-neuronales"><i class="fa fa-check"></i><b>11.1</b> Modelo de Redes Neuronales</a></li>
+<li class="chapter" data-level="11.2" data-path="modeloredesneuronales.html"><a href="modeloredesneuronales.html#resultados"><i class="fa fa-check"></i><b>11.2</b> Resultados</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -372,8 +377,8 @@ La mayoría de los valores vuelven a estar dentro del área de confianza.</p>
 <span id="cb37-9"><a href="modelo-estacional.html#cb37-9" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb37-10"><a href="modelo-estacional.html#cb37-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(ts_data, Outlier <span class="sc">==</span> <span class="st">&quot;Yes&quot;</span>), <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> Data), <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb37-11"><a href="modelo-estacional.html#cb37-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Time Series with Outliers&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Data&quot;</span>)</span></code></pre></div>
-<pre><code>## Don&#39;t know how to automatically pick scale for object
-## of type &lt;ts&gt;. Defaulting to continuous.</code></pre>
+<pre><code>## Don&#39;t know how to automatically pick scale for
+## object of type &lt;ts&gt;. Defaulting to continuous.</code></pre>
 <p><img src="https://raw.githubusercontent.com/davidc1228/BookdownST/main/_main_files/figure-html/grafica%20de%20outliers-1.png" width="672" /></p>
 <p>Con esta grafica tratamos de visualizar los outliers, sin embargo, como lo vimos anteriormente, no se identificaron puntos específicos significativos en la serie temporal según el modelo ARIMA(2,1,1) ajustado.</p>
 <p>Se hace un Check de los residuos para confirmar el diagnostico del modelo.</p>
